@@ -5,10 +5,10 @@ type PropsType = {
     id: string
     title: string,
     tasks: Array<TaskType>,
-    removeTask: (task: string) => void,
+    removeTask: (id: string, task: string) => void,
     chengeFilter: (value: FilterValuesType, id: string) => void
-    addTask: (title: string) => void
-    chengeIsDone: (id: string) => void
+    addTask: (id: string, title: string) => void
+    chengeIsDone: (id: string, ItemId: string) => void
     filter: FilterValuesType
 }
 export type TaskType = {
@@ -32,7 +32,7 @@ export const TodoList = ({title, tasks, filter, removeTask, chengeFilter, addTas
 
     const sendNewTask = () => {
         if (valueInput.trim()) {
-            addTask(valueInput)
+            addTask(id ,valueInput)
             setValueInput('')
         } else {
             setErrorInput({
@@ -58,12 +58,12 @@ export const TodoList = ({title, tasks, filter, removeTask, chengeFilter, addTas
             </div>
             <ul>
                 {tasks.map(item => {
-                    const chengeChecked = (id: string) => chengeIsDone(id)
+                    const chengeChecked = (id :string, ItemId: string) => chengeIsDone(id, ItemId)
 
                     return <li key={item.id}>
-                        <input type="checkbox" onChange={() => chengeChecked(item.id)} checked={item.isDone}/>
+                        <input type="checkbox" onChange={() => chengeChecked(id, item.id)} checked={item.isDone}/>
                         <span>{item.title}</span>
-                        <button onClick={() => removeTask(item.id)}>X</button>
+                        <button onClick={() => removeTask(id ,item.id)}>X</button>
                     </li>
 
                 })}

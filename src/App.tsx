@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskType, TodoList} from "./components/TodoList";
+import {TodoList} from "./components/TodoList";
 import {v1} from 'uuid'
 
 export type FilterValuesType = 'all' | 'complete' | 'active';
@@ -9,52 +9,29 @@ type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
+
 }
 
 function App() {
 
-    let [task, setTask] = useState<Array<TaskType>>(
-        [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
-            {id: v1(), title: 'ReactJS', isDone: false},
-            {id: v1(), title: 'Rest API', isDone: false},
-            {id: v1(), title: 'GrphQL', isDone: false},
-        ]
-    )
 
-
-
-
-    const removeTask = (idTask: string) => {
-        let newArrayTask = task.filter(el => el.id != idTask)
-        setTask(newArrayTask)
+    const removeTask = (id: string, idTask: string) => {
+        let tasks = allTasks[id]
+        let newArrayTask = tasks.filter(el => el.id != idTask)
+        allTasks[id] = newArrayTask
+        setAllTasks({...allTasks, newArrayTask})
     }
-    const addTask = (nameTask: string) => {
-        let newTask = [
-            ...task,
-            {
-                id: v1(),
-                title: nameTask,
-                isDone: false
-            }
-        ]
-        setTask(newTask)
+    const addTask = (id: string, nameTask: string) => {
+        let newTask = {
+            id: v1(),
+            title: nameTask,
+            isDone: false
+        }
+        let tasksArray = [...allTasks[id], newTask]
+        allTasks[id] = tasksArray
+        setAllTasks({...allTasks, tasksArray})
     }
 
-    const chengeIsDone = (id: string) => {
-        let chengeTask = [...task]
-        chengeTask.find(el => {
-            if (el.id === id) {
-                if (el.isDone) {
-                    el.isDone = false
-                } else {
-                    el.isDone = true
-                }
-            }
-        })
-        setTask(chengeTask)
-    }
 
     const chengeFilter = (value: FilterValuesType, todoListId: string) => {
         let newTodoListArray = [...todoListArray]
@@ -65,26 +42,58 @@ function App() {
         setTodoListArray(newTodoListArray)
     }
 
+    let todoListId1 = v1()
+    let todoListId2 = v1()
+
     const [todoListArray, setTodoListArray] = useState<Array<TodoListType>>([
-        {id: v1(), title: 'block1', filter: 'all'},
-        {id: v1(), title: 'block2', filter: 'all'},
+        {id: todoListId1, title: 'block1', filter: 'all'},
+        {id: todoListId2, title: 'block2', filter: 'all'},
     ])
 
+
+    const [allTasks, setAllTasks] = useState({
+        [todoListId1]: [
+            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: false},
+            {id: v1(), title: 'Rest API', isDone: false},
+            {id: v1(), title: 'GrphQL', isDone: false},
+        ],
+        [todoListId2]: [
+            {id: v1(), title: 'Book', isDone: true},
+            {id: v1(), title: 'Apple', isDone: true},
+            {id: v1(), title: 'Milk', isDone: false},
+        ]
+    })
+
+    const chengeIsDone = (id: string, Taskid: string) => {
+        let tasks = allTasks[id]
+        tasks.find(el => {
+            if (el.id === Taskid) {
+                if (el.isDone) {
+                    el.isDone = false
+                } else {
+                    el.isDone = true
+                }
+            }
+        })
+        setAllTasks({...allTasks})
+    }
 
 
     return (
         <div className="App">
             {todoListArray.map(el => {
 
-                let filterForTasks = task
+                let filterForTasks = allTasks[el.id]
                 if (el.filter === 'active') {
-                    filterForTasks = task.filter(el => !el.isDone)
+                    filterForTasks = allTasks[el.id].filter(item => !item.isDone)
                 }
                 if (el.filter === 'complete') {
-                    filterForTasks = task.filter(el => el.isDone)
+                    filterForTasks = allTasks[el.id].filter(item => item.isDone)
                 }
 
-                return  <TodoList
+                return <TodoList
                     key={el.id}
                     id={el.id}
                     title={el.title}
