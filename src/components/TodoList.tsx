@@ -21,18 +21,63 @@ type ErrorType = {
     textSpan: string
 }
 
-export const TodoList = ({title, tasks, filter, removeTask, chengeFilter, addTask, chengeIsDone, id}: PropsType) => {
+export const TodoList = ({
+                             title,
+                             tasks,
+                             filter,
+                             removeTask,
+                             chengeFilter,
+                             addTask,
+                             chengeIsDone,
+                             id
+                         }: PropsType) => {
+
+
+    return (
+        <div>
+            <h3>{title}</h3>
+            <AddItemForm addTask={addTask} id={id}/>
+            <ul>
+                {!tasks ? null : tasks.map(item => {
+                    const chengeChecked = (id: string, ItemId: string) => chengeIsDone(id, ItemId)
+
+                    return <li key={item.id}>
+                        <input type="checkbox" onChange={() => chengeChecked(id, item.id)} checked={item.isDone}/>
+                        <span>{item.title}</span>
+                        <button onClick={() => removeTask(id, item.id)}>X</button>
+                    </li>
+
+                })}
+            </ul>
+
+            <div>
+                <button className={filter === 'all' ? 'btnActiv' : ''} onClick={() => chengeFilter('all', id)}>All
+                </button>
+                <button className={filter === 'active' ? 'btnActiv' : ''}
+                        onClick={() => chengeFilter('active', id)}>Active
+                </button>
+                <button className={filter === 'complete' ? 'btnActiv' : ''}
+                        onClick={() => chengeFilter('complete', id)}>Completed
+                </button>
+            </div>
+        </div>
+    )
+}
+type TodoListPropTypes = {
+    addTask: (id: string, title: string) => void
+    id: string
+}
+
+export const AddItemForm = ({addTask, id}: TodoListPropTypes) => {
     const [valueInput, setValueInput] = useState<string>('')
     const [errorInput, setErrorInput] = useState<ErrorType>({
         style: '',
         textSpan: ''
     })
-
     const chengeInput = (e: ChangeEvent<HTMLInputElement>) => setValueInput(e.target.value)
-
     const sendNewTask = () => {
         if (valueInput.trim()) {
-            addTask(id ,valueInput)
+            addTask(id, valueInput)
             setValueInput('')
         } else {
             setErrorInput({
@@ -41,39 +86,17 @@ export const TodoList = ({title, tasks, filter, removeTask, chengeFilter, addTas
             })
         }
     }
-
     return (
         <div>
-            <h3>{title}</h3>
-            <div>
-                <input className={errorInput.style}
-                       value={valueInput}
-                       onChange={chengeInput}
-                       onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-                           if (e.charCode === 13) sendNewTask()
-                           if (e.charCode !== 32) setErrorInput({style: '', textSpan: ''})
-                       }}/>
-                <button onClick={sendNewTask}>Create Task</button>
-                <span>{errorInput.textSpan}</span>
-            </div>
-            <ul>
-                {tasks.map(item => {
-                    const chengeChecked = (id :string, ItemId: string) => chengeIsDone(id, ItemId)
-
-                    return <li key={item.id}>
-                        <input type="checkbox" onChange={() => chengeChecked(id, item.id)} checked={item.isDone}/>
-                        <span>{item.title}</span>
-                        <button onClick={() => removeTask(id ,item.id)}>X</button>
-                    </li>
-
-                })}
-            </ul>
-
-            <div>
-                <button className={filter === 'all' ? 'btnActiv' : ''} onClick={() => chengeFilter('all', id)}>All</button>
-                <button className={filter === 'active' ? 'btnActiv' : ''} onClick={() => chengeFilter('active', id)}>Active</button>
-                <button className={filter === 'complete' ? 'btnActiv' : ''} onClick={() => chengeFilter('complete', id)}>Completed</button>
-            </div>
+            <input className={errorInput.style}
+                   value={valueInput}
+                   onChange={chengeInput}
+                   onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+                       if (e.charCode === 13) sendNewTask()
+                       if (e.charCode !== 32) setErrorInput({style: '', textSpan: ''})
+                   }}/>
+            <button onClick={sendNewTask}>Create Task</button>
+            <span>{errorInput.textSpan}</span>
         </div>
     )
 }

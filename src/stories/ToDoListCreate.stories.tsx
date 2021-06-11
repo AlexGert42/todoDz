@@ -1,8 +1,18 @@
 import React, {useState} from 'react';
-import './App.scss';
-import {TodoList} from "./components/TodoList";
+import '../App.scss';
+import {TestTodoList} from "./TodoList.stories";
 import {v1} from 'uuid'
-import {AddItemForm} from './components/TodoList'
+
+import App from "../App";
+
+
+export default {
+    title: 'TestApp',
+    component: App, TestTodoList,
+
+}
+
+
 
 export type FilterValuesType = 'all' | 'complete' | 'active';
 
@@ -13,7 +23,7 @@ type TodoListType = {
 
 }
 
-function App() {
+export const TestApp = () => {
 
     const removeTask = (id: string, idTask: string) => {
         let tasks = allTasks[id]
@@ -27,16 +37,9 @@ function App() {
             title: nameTask,
             isDone: false
         }
-        if (!allTasks[id]) {
-            let tasksArray = [newTask]
-            allTasks[id] = tasksArray
-            setAllTasks({...allTasks, tasksArray})
-        } else {
-            let tasksArray = [...allTasks[id], newTask]
-            allTasks[id] = tasksArray
-            setAllTasks({...allTasks, tasksArray})
-        }
-
+        let tasksArray = [...allTasks[id], newTask]
+        allTasks[id] = tasksArray
+        setAllTasks({...allTasks, tasksArray})
     }
 
 
@@ -87,20 +90,9 @@ function App() {
         setAllTasks({...allTasks})
     }
 
-    const addTodoList = (id: string, value: string) => {
-        let newTodoList: TodoListType = {
-            id: id,
-            title: value,
-            filter: 'all'
-        }
-        setTodoListArray([...todoListArray, newTodoList])
-    }
-
-
 
     return (
         <div className="App">
-            <AddItemForm addTask={addTodoList} id={v1()}/>
             {todoListArray.map(el => {
 
                 let filterForTasks = allTasks[el.id]
@@ -111,7 +103,7 @@ function App() {
                     filterForTasks = allTasks[el.id].filter(item => item.isDone)
                 }
 
-                return <TodoList
+                return <TestTodoList
                     key={el.id}
                     id={el.id}
                     title={el.title}
@@ -128,4 +120,4 @@ function App() {
     );
 }
 
-export default App;
+
