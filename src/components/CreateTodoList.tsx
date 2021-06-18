@@ -1,18 +1,8 @@
-import React, {useState} from 'react';
-import '../App.scss';
-import {TestTodoList} from "./TodoList.stories";
-import {v1} from 'uuid'
-
-import App from "../App";
-
-
-export default {
-    title: 'TestApp',
-    component: App, TestTodoList,
-
-}
-
-
+import style from './CreateFormTodoList.module.scss'
+import {v1} from "uuid";
+import React, {useState} from "react";
+import {AddItemForm} from "./AddItemForm";
+import {TodoList} from "./TodoList";
 
 export type FilterValuesType = 'all' | 'complete' | 'active';
 
@@ -23,7 +13,7 @@ type TodoListType = {
 
 }
 
-export const TestApp = () => {
+export const CreateTodoList = () => {
 
     const removeTask = (id: string, idTask: string) => {
         let tasks = allTasks[id]
@@ -31,17 +21,24 @@ export const TestApp = () => {
         allTasks[id] = newArrayTask
         setAllTasks({...allTasks, newArrayTask})
     }
+
     const addTask = (id: string, nameTask: string) => {
         let newTask = {
             id: v1(),
             title: nameTask,
             isDone: false
         }
-        let tasksArray = [...allTasks[id], newTask]
-        allTasks[id] = tasksArray
-        setAllTasks({...allTasks, tasksArray})
-    }
+        if (!allTasks[id]) {
+            let tasksArray = [newTask]
+            allTasks[id] = tasksArray
+            setAllTasks({...allTasks, tasksArray})
+        } else {
+            let tasksArray = [...allTasks[id], newTask]
+            allTasks[id] = tasksArray
+            setAllTasks({...allTasks, tasksArray})
+        }
 
+    }
 
     const chengeFilter = (value: FilterValuesType, todoListId: string) => {
         let newTodoListArray = [...todoListArray]
@@ -52,8 +49,8 @@ export const TestApp = () => {
         setTodoListArray(newTodoListArray)
     }
 
-    let todoListId1 = v1()
-    let todoListId2 = v1()
+    let todoListId1 = v1()//
+    let todoListId2 = v1()//
 
     const [todoListArray, setTodoListArray] = useState<Array<TodoListType>>([
         {id: todoListId1, title: 'block1', filter: 'all'},
@@ -90,9 +87,46 @@ export const TestApp = () => {
         setAllTasks({...allTasks})
     }
 
+    const chengeTaskTitle = (id: string, Taskid: string, text: string) => {
+        // debugger
+        let tasks = allTasks[id]
+        tasks.find(el => {
+            if (el.id === Taskid) {
+               el.title = text
+            }
+        })
+
+        setAllTasks({...allTasks})
+    }
+
+    const chengeTitle = (id: string, text: string) => {
+        let newTodoListArray = [...todoListArray]
+        newTodoListArray.find(el => {
+            if (el.id === id) {
+                el.title = text
+            }
+        })
+        setTodoListArray([...newTodoListArray])
+
+    }
+
+    const addTodoList = (id: string, value: string) => {
+        let newTodoList: TodoListType = {
+            id: id,
+            title: value,
+            filter: 'all'
+        }
+        setTodoListArray([...todoListArray, newTodoList])
+    }
 
     return (
-        <div className="App">
+        <div className={style.create}>
+            <div className={style.create__todo_list}>
+                <AddItemForm addTask={addTodoList} id={v1()} style={style.todo_list__inner}/>
+            </div>
+
+
+
             {todoListArray.map(el => {
 
                 let filterForTasks = allTasks[el.id]
@@ -103,7 +137,7 @@ export const TestApp = () => {
                     filterForTasks = allTasks[el.id].filter(item => item.isDone)
                 }
 
-                return <TestTodoList
+                return <TodoList
                     key={el.id}
                     id={el.id}
                     title={el.title}
@@ -113,6 +147,9 @@ export const TestApp = () => {
                     addTask={addTask}
                     chengeIsDone={chengeIsDone}
                     filter={el.filter}
+
+                    chengeTaskTitle={chengeTaskTitle}
+                    chengeTitle={chengeTitle}
                 />
             })}
 

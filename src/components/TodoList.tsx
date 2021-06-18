@@ -1,5 +1,7 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {FilterValuesType} from '../App'
+import React from 'react';
+import {FilterValuesType} from './CreateTodoList'
+import {AddItemForm, TaskType} from "./AddItemForm";
+import {InputSpan} from "./InputSpan";
 
 type PropsType = {
     id: string
@@ -10,16 +12,10 @@ type PropsType = {
     addTask: (id: string, title: string) => void
     chengeIsDone: (id: string, ItemId: string) => void
     filter: FilterValuesType
+    chengeTaskTitle: (id: string, Taskid: string, text: string) => void
+    chengeTitle: (id: string, text: string) => void
 }
-export type TaskType = {
-    id: string,
-    title: string,
-    isDone: boolean
-}
-type ErrorType = {
-    style: string
-    textSpan: string
-}
+
 
 export const TodoList = ({
                              title,
@@ -29,21 +25,29 @@ export const TodoList = ({
                              chengeFilter,
                              addTask,
                              chengeIsDone,
-                             id
+                             id,
+                             chengeTaskTitle,
+                             chengeTitle
                          }: PropsType) => {
+
+    const onChengeTitleHendler = (text: string) => chengeTitle(id, text)
 
 
     return (
         <div>
-            <h3>{title}</h3>
-            <AddItemForm addTask={addTask} id={id}/>
+            <h3><InputSpan text={title} onChengeTitleHendler={onChengeTitleHendler}/></h3>
+            <AddItemForm addTask={addTask} id={id} style={{}}/>
             <ul>
                 {!tasks ? null : tasks.map(item => {
                     const chengeChecked = (id: string, ItemId: string) => chengeIsDone(id, ItemId)
 
+                    const onChengeTaskTitleHendler = (text: any) => {
+                        chengeTaskTitle(id, item.id, text)
+                    }
+
                     return <li key={item.id}>
                         <input type="checkbox" onChange={() => chengeChecked(id, item.id)} checked={item.isDone}/>
-                        <span>{item.title}</span>
+                        <InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
                         <button onClick={() => removeTask(id, item.id)}>X</button>
                     </li>
 
@@ -63,40 +67,4 @@ export const TodoList = ({
         </div>
     )
 }
-type TodoListPropTypes = {
-    addTask: (id: string, title: string) => void
-    id: string
-}
 
-export const AddItemForm = ({addTask, id}: TodoListPropTypes) => {
-    const [valueInput, setValueInput] = useState<string>('')
-    const [errorInput, setErrorInput] = useState<ErrorType>({
-        style: '',
-        textSpan: ''
-    })
-    const chengeInput = (e: ChangeEvent<HTMLInputElement>) => setValueInput(e.target.value)
-    const sendNewTask = () => {
-        if (valueInput.trim()) {
-            addTask(id, valueInput)
-            setValueInput('')
-        } else {
-            setErrorInput({
-                style: 'error',
-                textSpan: 'Error'
-            })
-        }
-    }
-    return (
-        <div>
-            <input className={errorInput.style}
-                   value={valueInput}
-                   onChange={chengeInput}
-                   onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-                       if (e.charCode === 13) sendNewTask()
-                       if (e.charCode !== 32) setErrorInput({style: '', textSpan: ''})
-                   }}/>
-            <button onClick={sendNewTask}>Create Task</button>
-            <span>{errorInput.textSpan}</span>
-        </div>
-    )
-}
