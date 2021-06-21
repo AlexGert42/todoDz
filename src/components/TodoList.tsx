@@ -2,6 +2,16 @@ import React from 'react';
 import {FilterValuesType} from './CreateTodoList'
 import {AddItemForm, TaskType} from "./AddItemForm";
 import {InputSpan} from "./InputSpan";
+import List from '@material-ui/core/List';
+import {
+    Checkbox,
+    ListItem,
+    Button,
+    Typography,
+    Grid,
+    Paper,
+    ButtonGroup,
+} from '@material-ui/core';
 
 type PropsType = {
     id: string
@@ -34,10 +44,17 @@ export const TodoList = ({
 
 
     return (
-        <div>
-            <h3><InputSpan text={title} onChengeTitleHendler={onChengeTitleHendler}/></h3>
-            <AddItemForm addTask={addTask} id={id} style={{}}/>
-            <ul>
+        <Grid item spacing={5}>
+            <Paper elevation={3} style={{padding: '20px'}}>
+
+                <Typography variant="h3">
+                    <InputSpan
+                        text={title}
+                        onChengeTitleHendler={onChengeTitleHendler}/>
+                </Typography>
+
+                <AddItemForm addTask={addTask} id={id}/>
+
                 {!tasks ? null : tasks.map(item => {
                     const chengeChecked = (id: string, ItemId: string) => chengeIsDone(id, ItemId)
 
@@ -45,26 +62,50 @@ export const TodoList = ({
                         chengeTaskTitle(id, item.id, text)
                     }
 
-                    return <li key={item.id}>
-                        <input type="checkbox" onChange={() => chengeChecked(id, item.id)} checked={item.isDone}/>
-                        <InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
-                        <button onClick={() => removeTask(id, item.id)}>X</button>
-                    </li>
+                    return <List key={item.id}>
+                        <ListItem style={{display: 'flex', justifyContent: 'space-between'}}>
+
+                            <Checkbox onChange={() => chengeChecked(id, item.id)} checked={item.isDone}
+                                      color="secondary"/>
+
+                            <InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
+
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                onClick={() => removeTask(id, item.id)}
+                            >X</Button>
+
+                        </ListItem>
+
+                    </List>
 
                 })}
-            </ul>
 
-            <div>
-                <button className={filter === 'all' ? 'btnActiv' : ''} onClick={() => chengeFilter('all', id)}>All
-                </button>
-                <button className={filter === 'active' ? 'btnActiv' : ''}
-                        onClick={() => chengeFilter('active', id)}>Active
-                </button>
-                <button className={filter === 'complete' ? 'btnActiv' : ''}
-                        onClick={() => chengeFilter('complete', id)}>Completed
-                </button>
-            </div>
-        </div>
+                <ButtonGroup
+                    variant="text"
+                    style={
+                        {
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            margin: '30px 0 0 0'
+                        }
+                    }>
+                    <Button color={filter === 'all' ? 'secondary' : 'primary'}
+                            onClick={() => chengeFilter('all', id)}>All
+                    </Button>
+                    <Button color={filter === 'active' ? 'secondary' : 'primary'}
+                            onClick={() => chengeFilter('active', id)}>Active
+                    </Button>
+                    <Button color={filter === 'complete' ? 'secondary' : 'primary'}
+                            onClick={() => chengeFilter('complete', id)}>Completed
+                    </Button>
+                </ButtonGroup>
+
+
+            </Paper>
+        </Grid>
     )
 }
 

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {TextField} from "@material-ui/core";
 
 
 export const InputSpan = ({text, onChengeTitleHendler}: any) => {
@@ -22,7 +23,7 @@ export const InputSpan = ({text, onChengeTitleHendler}: any) => {
             {flag ?
                 <span onDoubleClick={chengeSpan}>{newText}</span>
                 :
-                <input onKeyPress={chengeInput} onChange={chengeText} value={newText} type="text"/>
+                <TextField onKeyPress={chengeInput} onChange={chengeText} value={newText} type="text"/>
             }
         </>
     )

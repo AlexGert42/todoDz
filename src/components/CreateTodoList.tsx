@@ -1,12 +1,13 @@
-import style from './CreateFormTodoList.module.scss'
+
 import {v1} from "uuid";
 import React, {useState} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {TodoList} from "./TodoList";
+import {Grid} from "@material-ui/core";
 
 export type FilterValuesType = 'all' | 'complete' | 'active';
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -14,6 +15,35 @@ type TodoListType = {
 }
 
 export const CreateTodoList = () => {
+
+    let todoListId1 = v1()//
+    let todoListId2 = v1()//
+
+    const [allTasks, setAllTasks] = useState({
+        [todoListId1]: [
+            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: false},
+            {id: v1(), title: 'Rest API', isDone: false},
+            {id: v1(), title: 'GrphQL', isDone: false},
+        ],
+        [todoListId2]: [
+            {id: v1(), title: 'Book', isDone: true},
+            {id: v1(), title: 'Apple', isDone: true},
+            {id: v1(), title: 'Milk', isDone: false},
+        ]
+    })
+
+    const [todoListArray, setTodoListArray] = useState<Array<TodoListType>>([
+        {id: todoListId1, title: 'block1', filter: 'all'},
+        {id: todoListId2, title: 'block2', filter: 'all'},
+    ])
+
+
+
+
+
+    ////////////////////////////////////////////////////
 
     const removeTask = (id: string, idTask: string) => {
         let tasks = allTasks[id]
@@ -49,29 +79,6 @@ export const CreateTodoList = () => {
         setTodoListArray(newTodoListArray)
     }
 
-    let todoListId1 = v1()//
-    let todoListId2 = v1()//
-
-    const [todoListArray, setTodoListArray] = useState<Array<TodoListType>>([
-        {id: todoListId1, title: 'block1', filter: 'all'},
-        {id: todoListId2, title: 'block2', filter: 'all'},
-    ])
-
-
-    const [allTasks, setAllTasks] = useState({
-        [todoListId1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
-            {id: v1(), title: 'ReactJS', isDone: false},
-            {id: v1(), title: 'Rest API', isDone: false},
-            {id: v1(), title: 'GrphQL', isDone: false},
-        ],
-        [todoListId2]: [
-            {id: v1(), title: 'Book', isDone: true},
-            {id: v1(), title: 'Apple', isDone: true},
-            {id: v1(), title: 'Milk', isDone: false},
-        ]
-    })
 
     const chengeIsDone = (id: string, Taskid: string) => {
         let tasks = allTasks[id]
@@ -92,7 +99,7 @@ export const CreateTodoList = () => {
         let tasks = allTasks[id]
         tasks.find(el => {
             if (el.id === Taskid) {
-               el.title = text
+                el.title = text
             }
         })
 
@@ -119,40 +126,43 @@ export const CreateTodoList = () => {
         setTodoListArray([...todoListArray, newTodoList])
     }
 
+
+
     return (
-        <div className={style.create}>
-            <div className={style.create__todo_list}>
-                <AddItemForm addTask={addTodoList} id={v1()} style={style.todo_list__inner}/>
-            </div>
+        <div>
+
+            <Grid container spacing={10}>
+                <AddItemForm addTask={addTodoList} id={v1()} />
+            </Grid>
 
 
+            <Grid container spacing={10}>
+                {todoListArray.map(el => {
 
-            {todoListArray.map(el => {
+                    let filterForTasks = allTasks[el.id]
+                    if (el.filter === 'active') {
+                        filterForTasks = allTasks[el.id].filter(item => !item.isDone)
+                    }
+                    if (el.filter === 'complete') {
+                        filterForTasks = allTasks[el.id].filter(item => item.isDone)
+                    }
 
-                let filterForTasks = allTasks[el.id]
-                if (el.filter === 'active') {
-                    filterForTasks = allTasks[el.id].filter(item => !item.isDone)
-                }
-                if (el.filter === 'complete') {
-                    filterForTasks = allTasks[el.id].filter(item => item.isDone)
-                }
+                    return <TodoList
+                        key={el.id}
+                        id={el.id}
+                        title={el.title}
+                        tasks={filterForTasks}
+                        removeTask={removeTask}
+                        chengeFilter={chengeFilter}
+                        addTask={addTask}
+                        chengeIsDone={chengeIsDone}
+                        filter={el.filter}
 
-                return <TodoList
-                    key={el.id}
-                    id={el.id}
-                    title={el.title}
-                    tasks={filterForTasks}
-                    removeTask={removeTask}
-                    chengeFilter={chengeFilter}
-                    addTask={addTask}
-                    chengeIsDone={chengeIsDone}
-                    filter={el.filter}
-
-                    chengeTaskTitle={chengeTaskTitle}
-                    chengeTitle={chengeTitle}
-                />
-            })}
-
+                        chengeTaskTitle={chengeTaskTitle}
+                        chengeTitle={chengeTitle}
+                    />
+                })}
+            </Grid>
         </div>
     );
 }

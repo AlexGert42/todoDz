@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import style from './CreateFormTodoList.module.scss'
+import {TextField, Button, Typography, Grid, Paper} from "@material-ui/core";
 
 export type TaskType = {
     id: string,
@@ -14,7 +14,6 @@ export type ErrorType = {
 type TodoListPropTypes = {
     addTask: (id: string, title: string) => void
     id: string
-    style: any
 }
 
 export const AddItemForm = ({addTask, id}: TodoListPropTypes) => {
@@ -36,16 +35,21 @@ export const AddItemForm = ({addTask, id}: TodoListPropTypes) => {
         }
     }
     return (
-        <div>
-            <input className={errorInput.style}
-                   value={valueInput}
-                   onChange={chengeInput}
-                   onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-                       if (e.charCode === 13) sendNewTask()
-                       if (e.charCode !== 32) setErrorInput({style: '', textSpan: ''})
-                   }}/>
-            <button onClick={sendNewTask}>Create Task</button>
-            <span>{errorInput.textSpan}</span>
-        </div>
+        <Grid item xs={12}>
+            <Paper elevation={3} style={{padding: '20px'}}>
+
+            <TextField className={errorInput.style}
+                       fullWidth
+                       margin="normal"
+                       value={valueInput}
+                       onChange={chengeInput}
+                       onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+                           if (e.charCode === 13) sendNewTask()
+                           if (e.charCode !== 32) setErrorInput({style: '', textSpan: ''})
+                       }}/>
+            <Button variant="contained" color="primary" onClick={sendNewTask}>Create Task</Button>
+            <Typography>{errorInput.textSpan}</Typography>
+            </Paper>
+        </Grid>
     )
 }
