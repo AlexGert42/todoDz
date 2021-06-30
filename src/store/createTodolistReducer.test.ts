@@ -1,17 +1,12 @@
-import {TodoListType} from "../components/CreateTodoList";
+
 import {v1} from "uuid";
-import {CreateTodolistReducer} from "./createTodolistReducer";
+import {CreateTodolistReducer, TodoListType} from "./createTodolistReducer";
 import {
     addTodolistAction,
     chengeFilterTodolistAction,
     chengeTitleTodolistAction,
     removeTodolistAction
 } from "./createTodolistAction";
-
-export const REMOVE_TODOLIST = 'REMOVE_TODOLIST'
-export const ADD_TODOLIST = 'ADD_TODOLIST'
-export const CHENGE_NAME_TODOLIST = 'CHENGE_NAME_TODOLIST'
-export const CHENGE_FILTER_TODOLIST = 'CHENGE_FILTER_TODOLIST'
 
 
 test('CreateTodolist Correct Remove Todolist', () => {
@@ -42,9 +37,9 @@ test('CreateTodolist Correct ADD Todolist', () => {
         {id: v1(), title: 'block2', filter: 'all'},
     ]
 
+    const testTodolistId = v1()
 
-
-    const endState = CreateTodolistReducer(testState, addTodolistAction('New todolist'))
+    const endState = CreateTodolistReducer(testState, addTodolistAction(testTodolistId, 'New todolist'))
 
     console.log(endState)
     expect(endState.length).toBe(testState.length + 1)

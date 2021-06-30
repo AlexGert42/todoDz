@@ -29,7 +29,6 @@ test('Todolist correct todolist add task', () => {
     }
 
 
-
     const endState = TodolistReducer(testState, addTaskTodolistAction(todoListId1, 'testTask'))
     console.log(endState)
     expect(endState[todoListId1][5].title).toBe('testTask')

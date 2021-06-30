@@ -1,66 +1,56 @@
-import {FilterValuesType, TodoListType} from "../components/CreateTodoList";
-import {
-    ADD_TODOLIST,
-    CHENGE_FILTER_TODOLIST,
-    CHENGE_NAME_TODOLIST,
-    REMOVE_TODOLIST
-} from "./createTodolistReducer.test";
+
+import {addTodolistActionType, removeTodolistActionType, chengeNameTodolistActionType, chengeFilterTodolistActionType} from "./createTodolistAction";
+import {v1} from "uuid";
 
 
-type removeTodolistActionType = {
-    type: 'REMOVE_TODOLIST'
-    payload: string
-}
-type addTodolistActionType = {
-    type: 'ADD_TODOLIST'
-    payload: string
-}
-type chengeNameTodolistActionType = {
-    type: 'CHENGE_NAME_TODOLIST'
+export type FilterValuesType = 'all' | 'complete' | 'active';
+export type TodoListType = {
     id: string
-    payload: string
+    title: string
+    filter: FilterValuesType
+
 }
-type chengeFilterTodolistActionType = {
-    type: 'CHENGE_FILTER_TODOLIST'
-    id: string
-    payload: FilterValuesType
-}
+
 
 type createTodolistActionType = removeTodolistActionType |
     addTodolistActionType |
     chengeNameTodolistActionType |
     chengeFilterTodolistActionType
 
+export const todoListId1 = v1()//
+export const todoListId2 = v1()//
 
+const initialState: Array<TodoListType> = [
+    {id: todoListId1, title: 'block1', filter: 'all'},
+    {id: todoListId2, title: 'block2', filter: 'all'},
+]
 
-
-export const CreateTodolistReducer = (state: Array<TodoListType>, action: createTodolistActionType) => {
+export const CreateTodolistReducer = (state: Array<TodoListType> = initialState, action: createTodolistActionType): any => {
     switch (action.type) {
-
-        case REMOVE_TODOLIST:
+        case 'REMOVE_TODOLIST':
             let newArrayTodoList = state.filter(el => el.id !== action.payload)
-            return newArrayTodoList
-        case ADD_TODOLIST:
+            return [...newArrayTodoList]
+        case 'ADD_TODOLIST':
             return [
                 ...state,
                 action.payload
             ]
-        case CHENGE_NAME_TODOLIST:
+        case 'CHENGE_NAME_TODOLIST':
             let newTitleTodolist = [...state]
             newTitleTodolist.find(el => {
                 if (el.id === action.id) {
                     el.title = action.payload
                 }
             })
-            return newTitleTodolist
-            case CHENGE_FILTER_TODOLIST :
+            return [...newTitleTodolist]
+            case 'CHENGE_FILTER_TODOLIST' :
                 let newFilterTodolist = [...state]
                 newFilterTodolist.find(el => {
                     if (el.id === action.id) {
                         el.filter = action.payload
                     }
                 })
-                return newFilterTodolist
+                return [...newFilterTodolist]
         default:
             return state
     }

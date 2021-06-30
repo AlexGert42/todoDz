@@ -1,34 +1,44 @@
-import {TaskType} from "../components/AddItemForm";
-import {FilterValuesType} from "../components/CreateTodoList";
+import {removeTaskActionType, addTaskActionType, chengeTaskTitleActionType, chengeIsDoneActionType} from "./todolistAction";
+import {v1} from "uuid";
+import { todoListId1, todoListId2 } from "./createTodolistReducer";
 
-
-type removeTaskActionType = {
-    type: 'REMOVE_TASK'
-    id: string
-    taskId: string
-}
-type addTaskActionType = {
-    id: string
-    type: 'ADD_TASK'
-    payload: any
-}
-type chengeTaskTitleActionType = {
-    type: 'CHENGE_TASK_TITLE'
-    id: string
-    payload: string
-    taskId: string
-}
-type chengeIsDoneActionType = {
-    type: 'CHENGE_IS_DONE'
-    id: string
-    taskId: string
-}
 type TodolistActionType = removeTaskActionType | addTaskActionType | chengeTaskTitleActionType | chengeIsDoneActionType
 
 
 
-export const TodolistReducer = (state: any, action: TodolistActionType) => {
-    let newArrayTasks = [...state[action.id]]
+const initialState = {
+    [todoListId1]: [
+        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'ReactJS', isDone: false},
+        {id: v1(), title: 'Rest API', isDone: false},
+        {id: v1(), title: 'GrphQL', isDone: false},
+    ],
+    [todoListId2]: [
+        {id: v1(), title: 'Book', isDone: true},
+        {id: v1(), title: 'Apple', isDone: true},
+        {id: v1(), title: 'Milk', isDone: false},
+    ]
+}
+
+type taskType = {
+    id: string
+    title: string
+    isDone: boolean
+}
+type stateType = {
+    todoListId1: taskType
+    todoListId2: taskType
+}
+
+
+
+
+
+export const TodolistReducer = (state: any = initialState, action: TodolistActionType) => {
+    let newArrayTasks = [
+        ...state[action.id] || []
+    ]
     switch (action.type) {
         case 'ADD_TASK':
             newArrayTasks.push(action.payload)
@@ -63,6 +73,6 @@ export const TodolistReducer = (state: any, action: TodolistActionType) => {
                 [action.id]: newArrayTasks
             }
         default:
-            state
+            return state
     }
 }
