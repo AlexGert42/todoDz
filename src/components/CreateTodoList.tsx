@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import React from "react";
+import React, {useCallback, useMemo} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {TodoList} from "./TodoList";
 import {Grid} from "@material-ui/core";
@@ -19,30 +19,32 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../store/store";
 
 
-export const CreateTodoList = () => {
+export const CreateTodoList = React.memo( () => {
+
+    console.log('create Todo list')
     const dispatch = useDispatch()
     const todoListArray = useSelector<AppRootState, Array<TodoListType>>(state => state.todolist)
     const allTasks = useSelector<AppRootState, any>(state => state.tasks)
 
-    const addTodoList = (id: string, value: string) => {
+    const addTodoList = useCallback( (id: string, value: string) => {
         const action = addTodolistAction(id, value)
         dispatch(action)
-    }
+    }, [todoListArray])
 
-    const chengeTitle = (id: string, text: string) => {
+    const chengeTitle = useCallback( (id: string, text: string) => {
         const action = chengeTitleTodolistAction(id, text)
         dispatch(action)
-    }
+    }, [todoListArray])
 
-    const removeTodoList = (id: string) => {
+    const removeTodoList = useCallback( (id: string) => {
         const action = removeTodolistAction(id)
         dispatch(action)
-    }
+    }, [todoListArray])
 
-    const chengeFilter = (todoListId: string, value: FilterValuesType) => {
+    const chengeFilter = useCallback( (todoListId: string, value: FilterValuesType) => {
         const action = chengeFilterTodolistAction(todoListId, value)
         dispatch(action)
-    }
+    }, [allTasks])
 
     return (
         <div>
@@ -54,12 +56,11 @@ export const CreateTodoList = () => {
             <Grid container spacing={10}>
                 {todoListArray.map((el: any) => {
                     let filterForTasks = allTasks[el.id]
-                    if (el.filter === 'active') {
-                        filterForTasks = allTasks[el.id].filter((item: any) => !item.isDone)
-                    }
-                    if (el.filter === 'complete') {
-                        filterForTasks = allTasks[el.id].filter((item: any) => item.isDone)
-                    }
+
+
+
+
+
                     return <TodoList
                         key={el.id}
                         id={el.id}
@@ -75,6 +76,5 @@ export const CreateTodoList = () => {
 
         </div>
     );
-}
-
+})
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {AddItemForm, TaskType} from "./AddItemForm";
 import {InputSpan} from "./InputSpan";
 import List from '@material-ui/core/List';
@@ -19,6 +19,7 @@ import {
     removeTaskTodolistAction
 } from "../store/todolistAction";
 import {useDispatch} from "react-redux";
+import {taskType} from "../store/todolistReducer";
 
 type PropsType = {
     id: string
@@ -31,38 +32,47 @@ type PropsType = {
 }
 
 
-export const TodoList = ({
-                             title,
-                             tasks,
-                             filter,
-                             chengeFilter,
-                             id,
-                             chengeTitle,
-                             removeTodoList
-                         }: PropsType) => {
+export const TodoList = React.memo(({
+                                        title,
+                                        tasks,
+                                        filter,
+                                        chengeFilter,
+                                        id,
+                                        chengeTitle,
+                                        removeTodoList
+                                    }: PropsType) => {
 
 
+    console.log('todoList')
     const dispatch = useDispatch()
-    const onChengeTitleHendler = (text: string) => chengeTitle(id, text)
+    const onChengeTitleHendler = useCallback((text: string) => chengeTitle(id, text), [id])
 
-    const addTask = (id: string, nameTask: string) => {
+    const addTask = useCallback((id: string, nameTask: string) => {
         const action = addTaskTodolistAction(id, nameTask)
         dispatch(action)
-    }
+    }, [id])
 
-    const removeTask = (id: string, idTask: string) => {
+
+
+
+    const removeTask = useCallback((id: string, idTask: string) => {
         const action = removeTaskTodolistAction(id, idTask)
         dispatch(action)
-    }
+    }, [])
 
-    const chengeIsDone = (id: string, Taskid: string) => {
-        const action = chengeIsDoneTaskTodolistAction(id, Taskid)
-        dispatch(action)
-    }
 
-    const chengeTaskTitle = (id: string, Taskid: string, text: string) => {
-        const action = chengeTitleTaskTodolistAction(id, Taskid, text)
-        dispatch(action)
+
+
+
+
+    let filterForTasks = tasks
+    if (filterForTasks) {
+        if (filter === 'active') {
+            filterForTasks = tasks.filter((item: any) => !item.isDone)
+        }
+        if (filter === 'complete') {
+            filterForTasks = tasks.filter((item: any) => item.isDone)
+        }
     }
 
 
@@ -70,7 +80,8 @@ export const TodoList = ({
         <Grid item spacing={5}>
             <Paper elevation={3} style={{padding: '20px'}}>
 
-                <Typography variant="h3" style={{display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
+                <Typography variant="h3"
+                            style={{display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
 
                     <InputSpan
                         text={title}
@@ -85,30 +96,29 @@ export const TodoList = ({
                 </Typography>
 
                 <AddItemForm addTask={addTask} id={id}/>
-                {!tasks ? null : tasks.map(item => {
-                    const chengeChecked = (id: string, ItemId: string) => chengeIsDone(id, ItemId)
 
-                    const onChengeTaskTitleHendler = (text: string) => {
-                        chengeTaskTitle(id, item.id, text)
-                    }
+                {!filterForTasks ? null : filterForTasks.map(item => {
+
+                    const chengeIsDone = useCallback((id: string, Taskid: string) => {
+                        const action = chengeIsDoneTaskTodolistAction(id, Taskid)
+                        dispatch(action)
+                    }, [item.isDone])
+
+
+                    const chengeTaskTitle = useCallback((id: string, Taskid: string, text: string) => {
+                        const action = chengeTitleTaskTodolistAction(id, Taskid, text)
+                        dispatch(action)
+                    }, [item.title])
 
                     return <List key={item.id}>
-                        <ListItem style={{display: 'flex', justifyContent: 'space-between'}}>
 
-                            <Checkbox
-                                onChange={() => chengeChecked(id, item.id)} checked={item.isDone}
-                                color="secondary"/>
-
-                            <InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
-
-                            <Button
-                                variant="outlined"
-                                color="secondary"
-                                onClick={() => removeTask(id, item.id)}
-                            >X</Button>
-
-                        </ListItem>
-
+                        <Task
+                            id={id}
+                            item={item}
+                            removeTask={removeTask}
+                            chengeTaskTitle={chengeTaskTitle}
+                            chengeIsDone={chengeIsDone}
+                        />
                     </List>
                 })}
 
@@ -137,5 +147,40 @@ export const TodoList = ({
             </Paper>
         </Grid>
     )
+})
+
+export type TaskPropsType = {
+    id: string
+    item: taskType
+    removeTask: (id: string, tast: string) => void
+    chengeTaskTitle: (id: string, task: string, text: string) => void
+    chengeIsDone: (id: string, task: string) => void
 }
 
+
+export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeIsDone}: TaskPropsType) => {
+
+    const onChengeTaskTitleHendler = (text: string) => {
+        chengeTaskTitle(id, item.id, text)
+    }
+
+    return (
+        <ListItem style={{display: 'flex', justifyContent: 'space-between'}}>
+
+            <Checkbox
+                onChange={() => chengeIsDone(id, item.id)}
+                checked={item.isDone}
+                color="secondary"
+            />
+
+            <InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
+
+            <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => removeTask(id, item.id)}
+            >X</Button>
+
+        </ListItem>
+    )
+})

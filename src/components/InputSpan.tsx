@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {TextField} from "@material-ui/core";
 
 
-export const InputSpan = ({text, onChengeTitleHendler}: any) => {
-
+export const InputSpan = React.memo( ({text, onChengeTitleHendler}: any) => {
+    console.log('InputSpan')
     const [flag, setFlag] = useState(true)
     const [newText, setNewText] = useState(text)
 
@@ -27,5 +27,5 @@ export const InputSpan = ({text, onChengeTitleHendler}: any) => {
             }
         </>
     )
-}
+})
 
