@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {TodoList} from "./TodoList";
 import {Grid} from "@material-ui/core";

@@ -3,8 +3,6 @@ import {AddItemForm, TaskType} from "./AddItemForm";
 import {InputSpan} from "./InputSpan";
 import List from '@material-ui/core/List';
 import {
-    Checkbox,
-    ListItem,
     Button,
     Typography,
     Grid,
@@ -19,7 +17,7 @@ import {
     removeTaskTodolistAction
 } from "../store/todolistAction";
 import {useDispatch} from "react-redux";
-import {taskType} from "../store/todolistReducer";
+import {Task} from "./Task";
 
 type PropsType = {
     id: string
@@ -45,20 +43,29 @@ export const TodoList = React.memo(({
 
     console.log('todoList')
     const dispatch = useDispatch()
-    const onChengeTitleHendler = useCallback((text: string) => chengeTitle(id, text), [id])
+    const onChengeTitleHendler = (text: string) => chengeTitle(id, text)
 
     const addTask = useCallback((id: string, nameTask: string) => {
         const action = addTaskTodolistAction(id, nameTask)
         dispatch(action)
     }, [id])
 
-
-
-
     const removeTask = useCallback((id: string, idTask: string) => {
         const action = removeTaskTodolistAction(id, idTask)
         dispatch(action)
+    }, [id])
+
+    const chengeIsDone = useCallback((id: string, Taskid: string) => {
+        const action = chengeIsDoneTaskTodolistAction(id, Taskid)
+        dispatch(action)
     }, [])
+
+
+    const chengeTaskTitle = (id: string, Taskid: string, text: string) => {
+        const action = chengeTitleTaskTodolistAction(id, Taskid, text)
+        dispatch(action)
+    }
+
 
 
 
@@ -99,16 +106,7 @@ export const TodoList = React.memo(({
 
                 {!filterForTasks ? null : filterForTasks.map(item => {
 
-                    const chengeIsDone = useCallback((id: string, Taskid: string) => {
-                        const action = chengeIsDoneTaskTodolistAction(id, Taskid)
-                        dispatch(action)
-                    }, [item.isDone])
 
-
-                    const chengeTaskTitle = useCallback((id: string, Taskid: string, text: string) => {
-                        const action = chengeTitleTaskTodolistAction(id, Taskid, text)
-                        dispatch(action)
-                    }, [item.title])
 
                     return <List key={item.id}>
 
@@ -149,38 +147,3 @@ export const TodoList = React.memo(({
     )
 })
 
-export type TaskPropsType = {
-    id: string
-    item: taskType
-    removeTask: (id: string, tast: string) => void
-    chengeTaskTitle: (id: string, task: string, text: string) => void
-    chengeIsDone: (id: string, task: string) => void
-}
-
-
-export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeIsDone}: TaskPropsType) => {
-
-    const onChengeTaskTitleHendler = (text: string) => {
-        chengeTaskTitle(id, item.id, text)
-    }
-
-    return (
-        <ListItem style={{display: 'flex', justifyContent: 'space-between'}}>
-
-            <Checkbox
-                onChange={() => chengeIsDone(id, item.id)}
-                checked={item.isDone}
-                color="secondary"
-            />
-
-            <InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
-
-            <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => removeTask(id, item.id)}
-            >X</Button>
-
-        </ListItem>
-    )
-})

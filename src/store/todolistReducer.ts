@@ -1,9 +1,13 @@
-import {removeTaskActionType, addTaskActionType, chengeTaskTitleActionType, chengeIsDoneActionType} from "./todolistAction";
+import {
+    removeTaskActionType,
+    addTaskActionType,
+    chengeTaskTitleActionType,
+    chengeIsDoneActionType
+} from "./todolistAction";
 import {v1} from "uuid";
-import { todoListId1, todoListId2 } from "./createTodolistReducer";
+import {todoListId1, todoListId2} from "./createTodolistReducer";
 
 type TodolistActionType = removeTaskActionType | addTaskActionType | chengeTaskTitleActionType | chengeIsDoneActionType
-
 
 
 const initialState = {
@@ -32,9 +36,6 @@ type stateType = {
 }
 
 
-
-
-
 export const TodolistReducer = (state: any = initialState, action: TodolistActionType) => {
     let newArrayTasks = [
         ...state[action.id] || []
@@ -44,33 +45,41 @@ export const TodolistReducer = (state: any = initialState, action: TodolistActio
             newArrayTasks.push(action.payload)
             return {
                 ...state,
-                [action.id]: newArrayTasks
+                [action.id]: [...newArrayTasks]
             }
         case 'REMOVE_TASK':
             newArrayTasks = newArrayTasks.filter(el => el.id !== action.taskId)
             return {
                 ...state,
-                [action.id]: newArrayTasks
+                [action.id]: [...newArrayTasks]
             }
         case 'CHENGE_IS_DONE':
-            newArrayTasks.find(el => {
+            let arrayTasks = newArrayTasks.map(el => {
                 if (el.id === action.taskId) {
-                    el.isDone = !el.isDone
+                    return {
+                        ...el,
+                        isDone: !el.isDone
+                    }
                 }
+                return el
             })
             return {
                 ...state,
-                [action.id]: newArrayTasks
+                [action.id]: [...arrayTasks]
             }
         case 'CHENGE_TASK_TITLE':
-            newArrayTasks.find(el => {
+            let newArrayTaskTitle = newArrayTasks.map(el => {
                 if (el.id === action.taskId) {
-                    el.title = action.payload
+                    return {
+                        ...el,
+                        title: action.payload
+                    }
                 }
+                return el
             })
             return {
                 ...state,
-                [action.id]: newArrayTasks
+                [action.id]: [...newArrayTaskTitle]
             }
         default:
             return state

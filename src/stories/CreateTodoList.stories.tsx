@@ -1,5 +1,7 @@
 import React from 'react';
 import {CreateTodoList} from "../components/CreateTodoList";
+import {store} from "../store/store";
+import {Provider} from "react-redux";
 
 
 export default {
@@ -7,5 +9,5 @@ export default {
     component: CreateTodoList
 }
 
-export const createTodoList = () => <CreateTodoList/>
+export const createTodoList = () => <Provider store={store}><CreateTodoList/></Provider>
 

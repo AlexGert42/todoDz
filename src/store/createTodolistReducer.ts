@@ -38,16 +38,22 @@ export const CreateTodolistReducer = (state: Array<TodoListType> = initialState,
             let newTitleTodolist = [...state]
             newTitleTodolist.find(el => {
                 if (el.id === action.id) {
-                    el.title = action.payload
+                    return {
+                        ...el,
+                        title: action.payload
+                    }
                 }
             })
             return [...newTitleTodolist]
             case 'CHENGE_FILTER_TODOLIST' :
-                let newFilterTodolist = [...state]
-                newFilterTodolist.find(el => {
+                let newFilterTodolist = state.map(el => {
                     if (el.id === action.id) {
-                        el.filter = action.payload
+                        return {
+                            ...el,
+                            filter: action.payload
+                        }
                     }
+                    return el
                 })
                 return [...newFilterTodolist]
         default:
