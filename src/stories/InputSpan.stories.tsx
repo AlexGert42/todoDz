@@ -1,25 +1,32 @@
 import React from 'react';
 import {InputSpan} from "../components/InputSpan";
-import {Provider} from "react-redux";
-import {store} from "../store/store";
+// @ts-ignore
+import {action} from '@storybook/addon-actions';
+import {ReduxStoreProviderDecorator} from "../../.storybook/reduxStoreProviderDecorator";
 
 
 export default {
     title: 'TodoList/InputSpan',
-    component: InputSpan
+    component: InputSpan,
+    decorators: [ReduxStoreProviderDecorator]
 }
 
-let args = {
-    text: 'gdfgdhgfjhg'
+const onChengeTitleHendler = action('onChengeTitleHendler')
+
+const args_1 = {
+    text: 'test_1 ',
+    onChengeTitleHendler
+}
+const args_2 = {
+    text: 'test_2 ',
+    onChengeTitleHendler
 }
 
-const Template = (args: any) => {
-
-
-    return <Provider store={store}>
-        <InputSpan {...args}/>
-    </Provider>
+export const TaskBaseExample = () => {
+    return (
+        <>
+            <InputSpan text={args_1.text} onChengeTitleHendler={args_1.onChengeTitleHendler}/>
+            <InputSpan text={args_2.text} onChengeTitleHendler={args_2.onChengeTitleHendler}/>
+        </>
+    )
 }
-
-
-export const inputSpan1 = Template.bind(args)

@@ -19,7 +19,7 @@ import {
 import {useDispatch} from "react-redux";
 import {Task} from "./Task";
 
-type PropsType = {
+export type PropsTypeTodolist = {
     id: string
     title: string,
     tasks: Array<TaskType>,
@@ -38,7 +38,7 @@ export const TodoList = React.memo(({
                                         id,
                                         chengeTitle,
                                         removeTodoList
-                                    }: PropsType) => {
+                                    }: PropsTypeTodolist) => {
 
 
     console.log('todoList')

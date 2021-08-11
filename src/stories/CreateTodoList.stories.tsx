@@ -1,13 +1,13 @@
 import React from 'react';
 import {CreateTodoList} from "../components/CreateTodoList";
-import {store} from "../store/store";
-import {Provider} from "react-redux";
+import {ReduxStoreProviderDecorator} from "../../.storybook/reduxStoreProviderDecorator";
 
 
 export default {
     title: 'TodoList/CreateTodo',
-    component: CreateTodoList
+    component: CreateTodoList,
+    decorators: [ReduxStoreProviderDecorator]
 }
 
-export const createTodoList = () => <Provider store={store}><CreateTodoList/></Provider>
+export const createTodoList = () => <CreateTodoList/>
 

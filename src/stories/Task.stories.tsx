@@ -1,29 +1,45 @@
 import React from 'react';
-import {Provider} from "react-redux";
-import {store} from "../store/store";
 import { Task } from '../components/Task';
-import {v1} from "uuid";
-import {taskType} from "../store/todolistReducer";
+import { v1 } from 'uuid';
+// @ts-ignore
+import { action } from '@storybook/addon-actions';
+import {ReduxStoreProviderDecorator} from "../../.storybook/reduxStoreProviderDecorator";
+
 
 export default {
     title: 'TodoList/Task',
-    component: Task
+    component: Task,
+    decorators: [ReduxStoreProviderDecorator]
 }
 
+const chengeTaskTitle = action('chengeTaskTitle')
+const chengeIsDone = action('chengeIsDone')
+const removeTask = action('removeTask')
 
 
-let args_1 = {
+
+const args_1 = {
     id: v1(),
-    item: {id: v1(), title: 'ReactJS', isDone: false},
+    chengeTaskTitle,
+    chengeIsDone,
+    removeTask,
+    item:  {id: v1(), title: 'HTML&CSS_test', isDone: true},
 }
-let args_2 = {
+const args_2 = {
     id: v1(),
-    item: {id: v1(), title: 'ReactJSgfsdgfdgfdg', isDone: true},
+    chengeTaskTitle,
+    chengeIsDone,
+    removeTask,
+    item:  {id: v1(), title: 'HTML&CSS_test_2', isDone: false},
 }
 
-export const Template = (args_1: any) => {
-    return <Provider store={store}><Task {...args_1}/></Provider>
+export const TaskBaseExample = () => {
+    return (
+        <>
+            <Task id={args_1.id} chengeTaskTitle={args_1.chengeTaskTitle} chengeIsDone={args_1.chengeIsDone} removeTask={args_1.removeTask} item={args_1.item}/>
+            <Task id={args_2.id} chengeTaskTitle={args_2.chengeTaskTitle} chengeIsDone={args_2.chengeIsDone} removeTask={args_2.removeTask} item={args_2.item}/>
+
+        </>
+    )
 }
-
-
 

@@ -16,12 +16,12 @@ type createTodolistActionType = removeTodolistActionType |
     chengeNameTodolistActionType |
     chengeFilterTodolistActionType
 
-export const todoListId1 = v1()//
-export const todoListId2 = v1()//
+// export const todoListId1 = v1()//
+// export const todoListId2 = v1()//
 
 const initialState: Array<TodoListType> = [
-    {id: todoListId1, title: 'block1', filter: 'all'},
-    {id: todoListId2, title: 'block2', filter: 'all'},
+    // {id: todoListId1, title: 'block1', filter: 'all'},
+    // {id: todoListId2, title: 'block2', filter: 'all'},
 ]
 
 export const CreateTodolistReducer = (state: Array<TodoListType> = initialState, action: createTodolistActionType): any => {
