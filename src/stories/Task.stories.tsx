@@ -38,7 +38,6 @@ export const TaskBaseExample = () => {
         <>
             <Task id={args_1.id} chengeTaskTitle={args_1.chengeTaskTitle} chengeIsDone={args_1.chengeIsDone} removeTask={args_1.removeTask} item={args_1.item}/>
             <Task id={args_2.id} chengeTaskTitle={args_2.chengeTaskTitle} chengeIsDone={args_2.chengeIsDone} removeTask={args_2.removeTask} item={args_2.item}/>
-
         </>
     )
 }

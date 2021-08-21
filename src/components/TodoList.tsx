@@ -18,6 +18,7 @@ import {
 } from "../store/todolistAction";
 import {useDispatch} from "react-redux";
 import {Task} from "./Task";
+import { TodoApi } from '../api/todoApi';
 
 export type PropsTypeTodolist = {
     id: string
@@ -41,7 +42,6 @@ export const TodoList = React.memo(({
                                     }: PropsTypeTodolist) => {
 
 
-    console.log('todoList')
     const dispatch = useDispatch()
     const onChengeTitleHendler = (text: string) => chengeTitle(id, text)
 
@@ -67,7 +67,7 @@ export const TodoList = React.memo(({
     }
 
 
-
+    TodoApi.getTodolist()
 
 
 
