@@ -20,10 +20,31 @@ const args_1: PropsTypeTodolist = {
     id: v1(),
     title: 'Test_1',
     tasks: [
-        {id: v1(), title: 'HTML&CSS', isDone: true},
-        {id: v1(), title: 'JS', isDone: true},
-        {id: v1(), title: 'ReactJS', isDone: false},
-        {id: v1(), title: 'Rest API', isDone: false}
+        {
+            id: v1(),
+            title: 'HTML&CSS',
+            addedDate: '',
+            order: 0,
+            status: 0,
+            deadline: '',
+            description: '',
+            priority: 0,
+            startDate: '',
+            todoListId: '6546546'
+        },
+        {
+            id: v1(),
+            title: 'JS',
+            addedDate: '',
+            order: 0,
+            status: 0,
+            deadline: '',
+            description: '',
+            priority: 0,
+            startDate: '',
+            todoListId: '6546546'
+        },
+
     ],
     filter: 'all',
     chengeFilter,
@@ -35,8 +56,31 @@ const args_2: PropsTypeTodolist = {
     id: v1(),
     title: 'Test_2',
     tasks: [
-        {id: v1(), title: 'ReactJS', isDone: false},
-        {id: v1(), title: 'Rest API', isDone: false}
+
+        {
+            id: v1(),
+            title: 'TS-JS',
+            addedDate: '',
+            order: 0,
+            status: 0,
+            deadline: '',
+            description: '',
+            priority: 0,
+            startDate: '',
+            todoListId: '6546546'
+        },
+        {
+            id: v1(),
+            title: 'SQL',
+            addedDate: '',
+            order: 0,
+            status: 0,
+            deadline: '',
+            description: '',
+            priority: 0,
+            startDate: '',
+            todoListId: '6546546'
+        },
     ],
     filter: 'active',
     chengeFilter,

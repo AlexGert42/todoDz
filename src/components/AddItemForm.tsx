@@ -1,11 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useContext, useState} from "react";
 import {TextField, Button, Typography, Grid, Paper} from "@material-ui/core";
 
-export type TaskType = {
-    id: string,
-    title: string,
-    isDone: boolean
-}
+// export type TaskType = {
+//     id: string,
+//     title: string,
+//     isDone: boolean
+// }
 export type ErrorType = {
     style: string
     textSpan: string

@@ -21,7 +21,6 @@ import {AppRootState} from "../store/store";
 
 export const CreateTodoList = React.memo( () => {
 
-    console.log('create Todo list')
     const dispatch = useDispatch()
     const todoListArray = useSelector<AppRootState, Array<TodoListType>>(state => state.todolist)
     const allTasks = useSelector<AppRootState, any>(state => state.tasks)

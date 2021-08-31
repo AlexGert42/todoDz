@@ -7,13 +7,13 @@ import {
 
 } from '@material-ui/core';
 
-import {taskType} from "../store/todolistReducer";
+import {TaskType} from "../store/todolistReducer";
 
 
 
 export type TaskPropsType = {
     id: string
-    item: taskType
+    item: TaskType
     removeTask: (id: string, task: string) => void
     chengeTaskTitle: (id: string, task: string, text: string) => void
     chengeIsDone: (id: string, task: string) => void
@@ -31,7 +31,7 @@ export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeIs
 
             <Checkbox
                 onChange={() => chengeIsDone(id, item.id)}
-                checked={item.isDone}
+                checked={item.status === 2}
                 color="secondary"
             />
 

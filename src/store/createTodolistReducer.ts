@@ -1,12 +1,11 @@
 
 import {addTodolistActionType, removeTodolistActionType, chengeNameTodolistActionType, chengeFilterTodolistActionType} from "./createTodolistAction";
 import {v1} from "uuid";
+import {ServTodoListType} from "../api/todoApi";
 
 
 export type FilterValuesType = 'all' | 'complete' | 'active';
-export type TodoListType = {
-    id: string
-    title: string
+export type TodoListType = ServTodoListType & {
     filter: FilterValuesType
 }
 
@@ -16,13 +15,10 @@ type createTodolistActionType = removeTodolistActionType |
     chengeNameTodolistActionType |
     chengeFilterTodolistActionType
 
-// export const todoListId1 = v1()//
-// export const todoListId2 = v1()//
 
-const initialState: Array<TodoListType> = [
-    // {id: todoListId1, title: 'block1', filter: 'all'},
-    // {id: todoListId2, title: 'block2', filter: 'all'},
-]
+
+const initialState: Array<TodoListType> = []
+
 
 export const CreateTodolistReducer = (state: Array<TodoListType> = initialState, action: createTodolistActionType): any => {
     switch (action.type) {

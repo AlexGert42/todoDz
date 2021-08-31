@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {AddItemForm, TaskType} from "./AddItemForm";
+import {AddItemForm} from "./AddItemForm";
 import {InputSpan} from "./InputSpan";
 import List from '@material-ui/core/List';
 import {
@@ -18,6 +18,7 @@ import {
 } from "../store/todolistAction";
 import {useDispatch} from "react-redux";
 import {Task} from "./Task";
+import { TaskType } from '../store/todolistReducer';
 
 
 export type PropsTypeTodolist = {
@@ -56,7 +57,7 @@ export const TodoList = React.memo(({
     }, [id])
 
     const chengeIsDone = useCallback((id: string, Taskid: string) => {
-        const action = chengeIsDoneTaskTodolistAction(id, Taskid)
+        const action = chengeIsDoneTaskTodolistAction(id, Taskid, 0)
         dispatch(action)
     }, [])
 

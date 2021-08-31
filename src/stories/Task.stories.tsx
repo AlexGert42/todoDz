@@ -23,14 +23,36 @@ const args_1 = {
     chengeTaskTitle,
     chengeIsDone,
     removeTask,
-    item:  {id: v1(), title: 'HTML&CSS_test', isDone: true},
+    item: {
+        id: v1(),
+        title: 'HTML&CSS_test',
+        status: 2,
+        order: 0,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        priority: 0,
+        startDate: '',
+        todoListId: '6546546'
+    },
 }
 const args_2 = {
     id: v1(),
     chengeTaskTitle,
     chengeIsDone,
     removeTask,
-    item:  {id: v1(), title: 'HTML&CSS_test_2', isDone: false},
+    item:  {
+        id: v1(),
+        title: 'HTML&CSS_test_2',
+        status: 1,
+        order: 0,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        priority: 0,
+        startDate: '',
+        todoListId: '6546546'
+    },
 }
 
 export const TaskBaseExample = () => {

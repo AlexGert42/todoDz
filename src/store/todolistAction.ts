@@ -1,4 +1,5 @@
 import {v1} from "uuid";
+import {TaskType} from "./todolistReducer";
 export type removeTaskActionType = {
     type: 'REMOVE_TASK'
     id: string
@@ -17,6 +18,7 @@ export type chengeTaskTitleActionType = {
 }
 export type chengeIsDoneActionType = {
     type: 'CHENGE_IS_DONE'
+    payload: number
     id: string
     taskId: string
 }
@@ -26,10 +28,18 @@ export type chengeIsDoneActionType = {
 
 
 export const addTaskTodolistAction = (id: string, title: string): addTaskActionType => {
-    let newTask = {
+    let newTask: TaskType = {
         id: v1(),
         title: title,
-        isDone: false
+        status: 0,
+        order: 0,
+
+        addedDate: '',
+        deadline: '',
+        description: '',
+        priority: 0,
+        startDate: '',
+        todoListId: '6546546'
     }
     return {
         type: 'ADD_TASK',
@@ -44,8 +54,9 @@ export const removeTaskTodolistAction = (id: string, taskId: string): removeTask
     taskId,
 })
 
-export const chengeIsDoneTaskTodolistAction = (id: string, taskId: string): chengeIsDoneActionType => ({
+export const chengeIsDoneTaskTodolistAction = (id: string, taskId: string, value: number): chengeIsDoneActionType => ({
     type: 'CHENGE_IS_DONE',
+    payload: value,
     id,
     taskId,
 })

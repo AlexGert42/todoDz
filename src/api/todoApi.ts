@@ -1,22 +1,35 @@
 import axios from 'axios'
 
-export type TodoListType = {
+export type ServTodoListType = {
     id: string
     title: string
     addedDate: string
     order: number
 }
 
+export type ServTaskType = {
+    addedDate: string
+    deadline: string | null
+    description: string | null
+    id: string
+    order: number
+    priority: number
+    startDate: string | null
+    status: number
+    title: string
+    todoListId: string
+}
+
 type ApiTodolistMethodType = {
-    getTodolist: () => Promise<TodoListType[]>
+    getTodolist: () => Promise<ServTodoListType[]>
     setTodolist: (newTitle: string) => Promise<object>
     deleteTodolist: (id: string) => Promise<object>
     updateTodolist: (id: string, newTitle: string) => Promise<object>
     reorderTodolist: (id: string, order: number) => void
 }
 type ApiTaskMethodType = {
-    getTask: (id: string) => void
-    setTask: (id: string, newTitle: string) => void
+    getTask: (id: string) => Promise<ServTaskType[]>
+    setTask: (id: string, newTitle: string) => Promise<ServTaskType>
     deleteTask: (idL: string, idT: string) => void
     updateTask: (idL: string, idT: string, title: string) => void
     reorderTask: (idL: string, idT: string, order: number) => void
@@ -56,7 +69,7 @@ export const TaskApi: ApiTaskMethodType = {
         return instance.get(`/todo-lists/${idList}/tasks`).then(res => res.data)
     },
     setTask(idList: string, newTitle: string) {
-        return instance.post(`/todo-lists/${idList}/tasks`, {title: newTitle}).then(res => res.data)
+        return instance.post(`/todo-lists/${idList}/tasks`, {title: newTitle}).then(res => res.data.data.item)
     },
     deleteTask(idList: string, idTask: string) {
         return instance.delete(`/todo-lists/${idList}/tasks/${idTask}`).then(res => res.data)

@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {TodolistApi} from "./todoApi";
+import {TaskApi, TodolistApi} from "./todoApi";
 
 
 export default {
@@ -127,6 +127,39 @@ export const updateTodolist = () => {
 
         <TextField onChange={e => setValue_1(e.target.value)} value={value_1}/><br/>
         <TextField onChange={e => setValue_2(e.target.value)} value={value_2}/><br/>
+        <Button onClick={formHendler}>Add</Button>
+        <ListItem>{JSON.stringify(state)}</ListItem>
+        {getTodoList()}
+    </>
+}
+
+export const addTask = () => {
+    const [state, setState] = useState<any>(null)
+    const [id, setId] = useState('')
+    const [title, setTitle] = useState('')
+
+    const [addTask, setAddTask] = useState({
+        id: '',
+        title: ''
+    })
+
+    const formHendler = () => {
+        setAddTask({
+            id,
+            title
+        })
+    }
+
+    useEffect(() => {
+        TaskApi.setTask(id, title).then((res: any) => {
+            console.log(res)
+            setState(res)
+        })
+    }, [addTask])
+
+    return <>
+        <TextField onChange={e => setId(e.target.value)} value={id}/><br/>
+        <TextField onChange={e => setTitle(e.target.value)} value={title}/><br/>
         <Button onClick={formHendler}>Add</Button>
         <ListItem>{JSON.stringify(state)}</ListItem>
         {getTodoList()}

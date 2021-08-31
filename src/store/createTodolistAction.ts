@@ -1,4 +1,5 @@
-
+import {ServTodoListType} from "../api/todoApi";
+import {TodoListType} from "./createTodolistReducer";
 
 
 export type removeTodolistActionType = {
@@ -34,10 +35,12 @@ export const removeTodolistAction = (idTodolist: string): removeTodolistActionTy
 })
 
 export const addTodolistAction = (id: string, titleTodolist: string): addTodolistActionType => {
-    let newTodoList = {
+    let newTodoList: TodoListType = {
         id,
         title: titleTodolist,
-        filter: 'all'
+        filter: 'all',
+        addedDate: '',
+        order: 0
     }
     return {
         type: 'ADD_TODOLIST',
