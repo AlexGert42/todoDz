@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {TaskApi, TodolistApi} from "./todoApi";
+import {TaskApi, TodolistApi} from "../api/todoApi";
 
 
 export default {

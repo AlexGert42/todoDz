@@ -1,24 +1,19 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useContext, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TextField, Button, Typography, Grid, Paper} from "@material-ui/core";
 
-// export type TaskType = {
-//     id: string,
-//     title: string,
-//     isDone: boolean
-// }
+
 export type ErrorType = {
     style: string
     textSpan: string
 }
 
 type TodoListPropTypes = {
-    addTask: (id: string, title: string) => void
-    id: string
+    addTask: (title: string) => void
 }
 
-export const AddItemForm = React.memo(({addTask, id}: TodoListPropTypes) => {
+export const AddItemForm = React.memo(({addTask}: TodoListPropTypes) => {
 
-    console.log('add item form ')
+    // console.log('add item form ')
     const [valueInput, setValueInput] = useState<string>('')
     const [errorInput, setErrorInput] = useState<ErrorType>({
         style: '',
@@ -27,7 +22,7 @@ export const AddItemForm = React.memo(({addTask, id}: TodoListPropTypes) => {
     const chengeInput = (e: ChangeEvent<HTMLInputElement>) => setValueInput(e.target.value)
     const sendNewTask = () => {
         if (valueInput.trim()) {
-            addTask(id, valueInput)
+            addTask(valueInput)
             setValueInput('')
         } else {
             setErrorInput({

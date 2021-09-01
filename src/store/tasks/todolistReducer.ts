@@ -1,13 +1,12 @@
 import {
     removeTaskActionType,
     addTaskActionType,
-    chengeTaskTitleActionType,
-    chengeIsDoneActionType
+    setTasksType, updateTaskTodolistActionType
 } from "./todolistAction";
-import {ServTaskType} from "../api/todoApi";
+import {ServTaskType} from "../../api/todoApi";
 
 
-type TodolistActionType = removeTaskActionType | addTaskActionType | chengeTaskTitleActionType | chengeIsDoneActionType
+type TodolistActionType = removeTaskActionType | addTaskActionType | updateTaskTodolistActionType | setTasksType
 
 
 const initialState = {
@@ -23,6 +22,12 @@ export const TodolistReducer = (state: any = initialState, action: TodolistActio
         ...state[action.id] || []
     ]
     switch (action.type) {
+
+        case 'SET_TASK':
+            return {
+                ...state,
+                [action.id]: [...action.payload]
+            }
         case 'ADD_TASK':
             newArrayTasks.push(action.payload)
             return {
@@ -35,26 +40,12 @@ export const TodolistReducer = (state: any = initialState, action: TodolistActio
                 ...state,
                 [action.id]: [...newArrayTasks]
             }
-        case 'CHENGE_IS_DONE':
-            let arrayTasks = newArrayTasks.map(el => {
-                if (el.id === action.taskId) {
-                    return {
-                        ...el,
-                        status: action.payload
-                    }
-                }
-                return el
-            })
-            return {
-                ...state,
-                [action.id]: [...arrayTasks]
-            }
-        case 'CHENGE_TASK_TITLE':
+        case 'CHENGE_TASK':
             let newArrayTaskTitle = newArrayTasks.map(el => {
                 if (el.id === action.taskId) {
                     return {
                         ...el,
-                        title: action.payload
+                        ...action.payload
                     }
                 }
                 return el

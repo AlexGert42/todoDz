@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {InputSpan} from "./InputSpan";
+import {InputSpan} from "../../input/InputSpan";
 import {
     Checkbox,
     ListItem,
@@ -7,7 +7,7 @@ import {
 
 } from '@material-ui/core';
 
-import {TaskType} from "../store/todolistReducer";
+import {TaskType} from "../../../../store/tasks/todolistReducer";
 
 
 
@@ -16,7 +16,7 @@ export type TaskPropsType = {
     item: TaskType
     removeTask: (id: string, task: string) => void
     chengeTaskTitle: (id: string, task: string, text: string) => void
-    chengeIsDone: (id: string, task: string) => void
+    chengeIsDone: (id: string, task: string, status: number) => void
 }
 
 
@@ -30,7 +30,7 @@ export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeIs
         <ListItem style={{display: 'flex', justifyContent: 'space-between'}}>
 
             <Checkbox
-                onChange={() => chengeIsDone(id, item.id)}
+                onChange={() => chengeIsDone(id, item.id, (item.status === 0) ? 2 : 0)}
                 checked={item.status === 2}
                 color="secondary"
             />

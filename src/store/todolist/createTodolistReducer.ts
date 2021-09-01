@@ -1,7 +1,13 @@
 
-import {addTodolistActionType, removeTodolistActionType, chengeNameTodolistActionType, chengeFilterTodolistActionType} from "./createTodolistAction";
+import {
+    addTodolistActionType,
+    removeTodolistActionType,
+    chengeNameTodolistActionType,
+    chengeFilterTodolistActionType,
+    setTodolistActionType
+} from "./createTodolistAction";
 import {v1} from "uuid";
-import {ServTodoListType} from "../api/todoApi";
+import {ServTodoListType} from "../../api/todoApi";
 
 
 export type FilterValuesType = 'all' | 'complete' | 'active';
@@ -13,22 +19,31 @@ export type TodoListType = ServTodoListType & {
 type createTodolistActionType = removeTodolistActionType |
     addTodolistActionType |
     chengeNameTodolistActionType |
-    chengeFilterTodolistActionType
+    chengeFilterTodolistActionType |
+    setTodolistActionType
 
 
 
 const initialState: Array<TodoListType> = []
 
 
-export const CreateTodolistReducer = (state: Array<TodoListType> = initialState, action: createTodolistActionType): any => {
+export const CreateTodolistReducer = (state: Array<TodoListType> = initialState, action: createTodolistActionType): Array<TodoListType> | [] => {
     switch (action.type) {
+        case "SET_TODOLIST":
+            return action.payload.map(el => {
+                return {
+                    ...el,
+                    filter: 'all'
+                }
+            })
+
         case 'REMOVE_TODOLIST':
             let newArrayTodoList = state.filter(el => el.id !== action.payload)
             return [...newArrayTodoList]
         case 'ADD_TODOLIST':
             return [
                 ...state,
-                action.payload
+                {...action.payload, filter: 'all'}
             ]
         case 'CHENGE_NAME_TODOLIST':
             let newTitleTodolist = [...state]

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import {CreateTodoList} from "./components/CreateTodoList";
+import {CreateTodoList} from "./components/content/todolist/CreateTodoList";
 
 
 

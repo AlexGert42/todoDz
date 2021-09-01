@@ -1,5 +1,5 @@
 import React from 'react';
-import { Task } from '../components/Task';
+import { Task } from '../components/content/tasks/task/Task';
 import { v1 } from 'uuid';
 // @ts-ignore
 import { action } from '@storybook/addon-actions';

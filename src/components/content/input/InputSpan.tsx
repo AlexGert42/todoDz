@@ -3,7 +3,7 @@ import {TextField} from "@material-ui/core";
 
 
 export const InputSpan = React.memo( ({text, onChengeTitleHendler}: any) => {
-    console.log('InputSpan')
+    // console.log('InputSpan')
     const [flag, setFlag] = useState(true)
     const [newText, setNewText] = useState(text)
 

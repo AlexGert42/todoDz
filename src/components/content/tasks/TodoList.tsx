@@ -1,6 +1,6 @@
-import React, {useCallback} from 'react';
-import {AddItemForm} from "./AddItemForm";
-import {InputSpan} from "./InputSpan";
+import React, {useCallback, useEffect} from 'react';
+import {AddItemForm} from "../form/AddItemForm";
+import {InputSpan} from "../input/InputSpan";
 import List from '@material-ui/core/List';
 import {
     Button,
@@ -9,16 +9,15 @@ import {
     Paper,
     ButtonGroup,
 } from '@material-ui/core';
-import {FilterValuesType} from "../store/createTodolistReducer";
+import {FilterValuesType} from "../../../store/todolist/createTodolistReducer";
 import {
-    addTaskTodolistAction,
-    chengeIsDoneTaskTodolistAction,
-    chengeTitleTaskTodolistAction,
-    removeTaskTodolistAction
-} from "../store/todolistAction";
+    addTaskThunk,
+    getTaskThunk, removeTaskThunk,
+    updateTaskThunk
+} from "../../../store/tasks/todolistAction";
 import {useDispatch} from "react-redux";
-import {Task} from "./Task";
-import { TaskType } from '../store/todolistReducer';
+import {Task} from "./task/Task";
+import {TaskType} from '../../../store/tasks/todolistReducer';
 
 
 export type PropsTypeTodolist = {
@@ -42,40 +41,38 @@ export const TodoList = React.memo(({
                                         removeTodoList
                                     }: PropsTypeTodolist) => {
 
+    useEffect(() => {
+        dispatch(getTaskThunk(id))
+    }, [])
 
     const dispatch = useDispatch()
     const onChengeTitleHendler = (text: string) => chengeTitle(id, text)
 
-    const addTask = useCallback((id: string, nameTask: string) => {
-        const action = addTaskTodolistAction(id, nameTask)
-        dispatch(action)
+    const addTask = useCallback((nameTask: string) => {
+        dispatch(addTaskThunk(id, nameTask))
     }, [id])
 
     const removeTask = useCallback((id: string, idTask: string) => {
-        const action = removeTaskTodolistAction(id, idTask)
-        dispatch(action)
+        dispatch(removeTaskThunk(id, idTask))
     }, [id])
 
-    const chengeIsDone = useCallback((id: string, Taskid: string) => {
-        const action = chengeIsDoneTaskTodolistAction(id, Taskid, 0)
-        dispatch(action)
+    const chengeStatus = useCallback((id: string, taskId: string, status: number) => {
+        dispatch(updateTaskThunk(id, taskId, {status}))
     }, [])
 
 
     const chengeTaskTitle = (id: string, Taskid: string, text: string) => {
-        const action = chengeTitleTaskTodolistAction(id, Taskid, text)
-        dispatch(action)
+        dispatch(updateTaskThunk(id, Taskid, {title: text}))
     }
-
 
 
     let filterForTasks = tasks
     if (filterForTasks) {
         if (filter === 'active') {
-            filterForTasks = tasks.filter((item: any) => !item.isDone)
+            filterForTasks = tasks.filter((item: any) => item.status === 0)
         }
         if (filter === 'complete') {
-            filterForTasks = tasks.filter((item: any) => item.isDone)
+            filterForTasks = tasks.filter((item: any) => item.status === 2)
         }
     }
 
@@ -99,10 +96,9 @@ export const TodoList = React.memo(({
 
                 </Typography>
 
-                <AddItemForm addTask={addTask} id={id}/>
+                <AddItemForm addTask={addTask}/>
 
-                {!filterForTasks ? null : filterForTasks.map(item => {
-
+                {filterForTasks === undefined ? null : filterForTasks.map(item => {
 
 
                     return <List key={item.id}>
@@ -112,7 +108,7 @@ export const TodoList = React.memo(({
                             item={item}
                             removeTask={removeTask}
                             chengeTaskTitle={chengeTaskTitle}
-                            chengeIsDone={chengeIsDone}
+                            chengeIsDone={chengeStatus}
                         />
                     </List>
                 })}
