@@ -1,18 +1,17 @@
-
 import {
     addTodolistActionType,
     removeTodolistActionType,
     chengeNameTodolistActionType,
     chengeFilterTodolistActionType,
-    setTodolistActionType
+    setTodolistActionType, DisabledActionType
 } from "./createTodolistAction";
-import {v1} from "uuid";
 import {ServTodoListType} from "../../api/todoApi";
 
 
 export type FilterValuesType = 'all' | 'complete' | 'active';
 export type TodoListType = ServTodoListType & {
-    filter: FilterValuesType
+    filter: FilterValuesType,
+    entiryStatus: string
 }
 
 
@@ -20,8 +19,8 @@ type createTodolistActionType = removeTodolistActionType |
     addTodolistActionType |
     chengeNameTodolistActionType |
     chengeFilterTodolistActionType |
-    setTodolistActionType
-
+    setTodolistActionType |
+    DisabledActionType
 
 
 const initialState: Array<TodoListType> = []
@@ -33,7 +32,8 @@ export const CreateTodolistReducer = (state: Array<TodoListType> = initialState,
             return action.payload.map(el => {
                 return {
                     ...el,
-                    filter: 'all'
+                    filter: 'all',
+                    entiryStatus: ''
                 }
             })
 
@@ -56,17 +56,28 @@ export const CreateTodolistReducer = (state: Array<TodoListType> = initialState,
                 }
             })
             return [...newTitleTodolist]
-            case 'CHENGE_FILTER_TODOLIST' :
-                let newFilterTodolist = state.map(el => {
-                    if (el.id === action.id) {
-                        return {
-                            ...el,
-                            filter: action.payload
-                        }
+        case 'CHENGE_FILTER_TODOLIST' :
+            let newFilterTodolist = state.map(el => {
+                if (el.id === action.id) {
+                    return {
+                        ...el,
+                        filter: action.payload
                     }
-                    return el
-                })
-                return [...newFilterTodolist]
+                }
+                return el
+            })
+            return [...newFilterTodolist]
+        case 'SET_DISABLED':
+            let newStatusTodolist = state.map(el => {
+                if (el.id === action.id) {
+                    return {
+                        ...el,
+                        entiryStatus: action.payload
+                    }
+                }
+                return el
+            })
+            return [...newStatusTodolist]
         default:
             return state
     }

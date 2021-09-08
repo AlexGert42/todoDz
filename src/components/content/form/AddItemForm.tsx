@@ -9,11 +9,11 @@ export type ErrorType = {
 
 type TodoListPropTypes = {
     addTask: (title: string) => void
+    status?: string
 }
 
-export const AddItemForm = React.memo(({addTask}: TodoListPropTypes) => {
+export const AddItemForm = React.memo(({addTask, status}: TodoListPropTypes) => {
 
-    // console.log('add item form ')
     const [valueInput, setValueInput] = useState<string>('')
     const [errorInput, setErrorInput] = useState<ErrorType>({
         style: '',
@@ -38,6 +38,7 @@ export const AddItemForm = React.memo(({addTask}: TodoListPropTypes) => {
 
                 <TextField className={errorInput.style}
                            fullWidth
+                           disabled={status === 'loading'}
                            margin="normal"
                            value={valueInput}
                            onChange={chengeInput}
@@ -45,7 +46,7 @@ export const AddItemForm = React.memo(({addTask}: TodoListPropTypes) => {
                                if (e.charCode === 13) sendNewTask()
                                if (e.charCode !== 32) setErrorInput({style: '', textSpan: ''})
                            }}/>
-                <Button variant="contained" color="primary" onClick={sendNewTask}>Create Task</Button>
+                <Button variant="contained" color="primary" onClick={sendNewTask} disabled={status === 'loading'}>Create Task</Button>
                 <Typography>{errorInput.textSpan}</Typography>
             </Paper>
         </Grid>

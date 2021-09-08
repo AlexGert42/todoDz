@@ -33,7 +33,8 @@ const args_1 = {
         description: '',
         priority: 0,
         startDate: '',
-        todoListId: '6546546'
+        todoListId: '6546546',
+        statusProcess: ''
     },
 }
 const args_2 = {
@@ -51,15 +52,16 @@ const args_2 = {
         description: '',
         priority: 0,
         startDate: '',
-        todoListId: '6546546'
+        todoListId: '6546546',
+        statusProcess: ''
     },
 }
 
 export const TaskBaseExample = () => {
     return (
         <>
-            <Task id={args_1.id} chengeTaskTitle={args_1.chengeTaskTitle} chengeIsDone={args_1.chengeIsDone} removeTask={args_1.removeTask} item={args_1.item}/>
-            <Task id={args_2.id} chengeTaskTitle={args_2.chengeTaskTitle} chengeIsDone={args_2.chengeIsDone} removeTask={args_2.removeTask} item={args_2.item}/>
+            <Task id={args_1.id} chengeTaskTitle={args_1.chengeTaskTitle} chengeStatus={args_1.chengeIsDone} removeTask={args_1.removeTask} item={args_1.item}/>
+            <Task id={args_2.id} chengeTaskTitle={args_2.chengeTaskTitle} chengeStatus={args_2.chengeIsDone} removeTask={args_2.removeTask} item={args_2.item}/>
         </>
     )
 }

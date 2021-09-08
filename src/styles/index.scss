@@ -1,0 +1,19 @@
+@import "defStyle";
+
+
+$bgBase: #82afad;
+$colorBaseText: #444343;
+$colorTitleText: #484848;
+$colorHeaderText: #fff;
+
+body {
+  background-color: #fff;
+  color: $colorBaseText;
+}
+
+.container {
+  overflow: hidden;
+  min-height: calc(100vh - 70px);
+  width: 100%;
+  padding: 100px 0 40px 0;
+}

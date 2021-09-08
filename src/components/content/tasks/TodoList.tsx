@@ -18,11 +18,13 @@ import {
 import {useDispatch} from "react-redux";
 import {Task} from "./task/Task";
 import {TaskType} from '../../../store/tasks/todolistReducer';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 
 export type PropsTypeTodolist = {
     id: string
     title: string,
+    entiryStatus: string
     tasks: Array<TaskType>,
     chengeFilter: (id: string, value: FilterValuesType,) => void
     filter: FilterValuesType
@@ -38,12 +40,13 @@ export const TodoList = React.memo(({
                                         chengeFilter,
                                         id,
                                         chengeTitle,
-                                        removeTodoList
+                                        removeTodoList,
+                                        entiryStatus
                                     }: PropsTypeTodolist) => {
 
     useEffect(() => {
         dispatch(getTaskThunk(id))
-    }, [])
+    }, [id])
 
     const dispatch = useDispatch()
     const onChengeTitleHendler = (text: string) => chengeTitle(id, text)
@@ -58,7 +61,7 @@ export const TodoList = React.memo(({
 
     const chengeStatus = useCallback((id: string, taskId: string, status: number) => {
         dispatch(updateTaskThunk(id, taskId, {status}))
-    }, [])
+    }, [id])
 
 
     const chengeTaskTitle = (id: string, Taskid: string, text: string) => {
@@ -78,7 +81,7 @@ export const TodoList = React.memo(({
 
 
     return (
-        <Grid item spacing={5}>
+        <Grid item spacing={2}>
             <Paper elevation={3} style={{padding: '20px'}}>
 
                 <Typography variant="h3"
@@ -89,14 +92,15 @@ export const TodoList = React.memo(({
                         onChengeTitleHendler={onChengeTitleHendler}
                     />
                     <Button
-                        variant="outlined"
-                        color="secondary"
                         onClick={() => removeTodoList(id)}
-                    >remove</Button>
+                        disabled={entiryStatus === 'loading'}
+                    >
+                        <DeleteOutlineIcon/>
+                    </Button>
 
                 </Typography>
 
-                <AddItemForm addTask={addTask}/>
+                <AddItemForm addTask={addTask} status={entiryStatus}/>
 
                 {filterForTasks === undefined ? null : filterForTasks.map(item => {
 
@@ -108,7 +112,7 @@ export const TodoList = React.memo(({
                             item={item}
                             removeTask={removeTask}
                             chengeTaskTitle={chengeTaskTitle}
-                            chengeIsDone={chengeStatus}
+                            chengeStatus={chengeStatus}
                         />
                     </List>
                 })}

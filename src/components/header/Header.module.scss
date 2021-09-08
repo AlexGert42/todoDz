@@ -1,0 +1,29 @@
+@import "../../styles/index";
+
+.header {
+  background-color: $bgBase !important;
+  color: $colorHeaderText !important;
+  .header__inner {
+    //padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .header__menu {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      .header__icon {
+        margin-right: 20px;
+      }
+    }
+    .header__btn {
+
+    }
+  }
+
+}
+
+.progressbar {
+  position: absolute;
+  bottom: -5px;
+}

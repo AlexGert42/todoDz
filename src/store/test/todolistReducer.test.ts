@@ -1,5 +1,5 @@
 // import {v1} from "uuid";
-// import {TodolistReducer} from "../todolistReducer";
+// import {AppReducer} from "../todolistReducer";
 // import {TaskType} from "../../components/AddItemForm";
 // import {
 //     addTaskTodolistAction,
@@ -29,7 +29,7 @@
 //     }
 //
 //
-//     const endState = TodolistReducer(testState, addTaskTodolistAction(todoListId1, 'testTask'))
+//     const endState = AppReducer(testState, addTaskTodolistAction(todoListId1, 'testTask'))
 //     console.log(endState)
 //     expect(endState[todoListId1][5].title).toBe('testTask')
 //
@@ -55,7 +55,7 @@
 //         ]
 //     }
 //
-//     const endState = TodolistReducer(testState, removeTaskTodolistAction(todoListId1, taskId))
+//     const endState = AppReducer(testState, removeTaskTodolistAction(todoListId1, taskId))
 //     console.log(endState)
 //     expect(endState[todoListId1].length).toBe(4)
 // })
@@ -79,7 +79,7 @@
 //         ]
 //     }
 //
-//     const endState = TodolistReducer(testState, chengeIsDoneTaskTodolistAction(todoListId1, taskId))
+//     const endState = AppReducer(testState, chengeIsDoneTaskTodolistAction(todoListId1, taskId))
 //     console.log(endState)
 //     expect(endState[todoListId1][0].isDone).toBe(false)
 // })
@@ -103,7 +103,7 @@
 //         ]
 //     }
 //
-//     const endState = TodolistReducer(testState, chengeTitleTaskTodolistAction(todoListId1, taskId, 'test' ))
+//     const endState = AppReducer(testState, chengeTitleTaskTodolistAction(todoListId1, taskId, 'test' ))
 //     console.log(endState)
 //     expect(endState[todoListId1][0].title).toBe('test')
 // })

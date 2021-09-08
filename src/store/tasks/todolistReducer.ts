@@ -1,32 +1,39 @@
 import {
     removeTaskActionType,
     addTaskActionType,
-    setTasksType, updateTaskTodolistActionType
+    setTasksType, updateTaskTodolistActionType, SetDisabledTaskType
 } from "./todolistAction";
 import {ServTaskType} from "../../api/todoApi";
 
 
-type TodolistActionType = removeTaskActionType | addTaskActionType | updateTaskTodolistActionType | setTasksType
+type TodolistActionType = removeTaskActionType | addTaskActionType | updateTaskTodolistActionType | setTasksType | SetDisabledTaskType
 
-
-const initialState = {
-
+export type TaskType = ServTaskType & {
+    statusProcess: string
 }
 
-export type TaskType = ServTaskType
+
+export type StateTaskType = {
+    [key: string]: Array<TaskType>
+}
+
+const initialState = {}
 
 
-
-export const TodolistReducer = (state: any = initialState, action: TodolistActionType) => {
+export const TodolistReducer = (state: StateTaskType = initialState, action: TodolistActionType): StateTaskType => {
     let newArrayTasks = [
         ...state[action.id] || []
     ]
     switch (action.type) {
-
         case 'SET_TASK':
             return {
                 ...state,
-                [action.id]: [...action.payload]
+                [action.id]: action.payload.map(el => {
+                    return {
+                        ...el,
+                        statusProcess: ''
+                    }
+                })
             }
         case 'ADD_TASK':
             newArrayTasks.push(action.payload)
@@ -53,6 +60,20 @@ export const TodolistReducer = (state: any = initialState, action: TodolistActio
             return {
                 ...state,
                 [action.id]: [...newArrayTaskTitle]
+            }
+        case 'DISABLED_TASK':
+            let newArrayTaskDisabled = newArrayTasks.map(el => {
+                if (el.id === action.taskId) {
+                    return {
+                        ...el,
+                        statusProcess: action.payload
+                    }
+                }
+               return el
+            })
+            return {
+                ...state,
+                [action.id]: [...newArrayTaskDisabled]
             }
         default:
             return state
