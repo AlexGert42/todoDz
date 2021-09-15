@@ -1,16 +1,21 @@
 import {AppBar, IconButton, Typography, Button, Toolbar, LinearProgress} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import React, {useState} from "react";
+import React from "react";
 import styles from './Header.module.scss'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../store/store";
-import {initialStateType} from "../../store/app/appReducer";
+import {logoutThunk} from "../../store/app/appAction";
 
 
 export const Header: React.FC = () => {
+    const dispatch = useDispatch()
+    const progress = useSelector<AppRootState, boolean>(state => state.app.progressLoading)
 
-    const progress = useSelector<AppRootState, boolean>(state => state.app.initApp)
+    const auth = useSelector<AppRootState, boolean>(state => state.app.authMe)
 
+    const clickHendler = () => {
+        dispatch(logoutThunk())
+    }
 
     return (
         <AppBar position="fixed" className={styles.header}>
@@ -23,9 +28,23 @@ export const Header: React.FC = () => {
                         Todolist
                     </Typography>
                 </div>
-                <Button className={styles.header__btn} color="inherit">Login</Button>
+
+
+                {
+                    auth ?
+                        <Button
+                            className={styles.header__btn}
+                            color="inherit"
+                            onClick={clickHendler}
+                        >
+                            Logout
+                        </Button>
+                        :
+                        <></>
+                }
+
             </Toolbar>
-            {!progress && <LinearProgress className={styles.progressbar}/>}
+            {progress && <LinearProgress className={styles.progressbar}/>}
         </AppBar>
     )
 }

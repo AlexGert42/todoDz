@@ -9,15 +9,15 @@ import {
     Paper,
     ButtonGroup,
 } from '@material-ui/core';
-import {FilterValuesType} from "../../../store/todolist/createTodolistReducer";
+import {FilterValuesType} from "../../../store/todolist/todolistReducer";
 import {
     addTaskThunk,
     getTaskThunk, removeTaskThunk,
     updateTaskThunk
-} from "../../../store/tasks/todolistAction";
+} from "../../../store/tasks/tasksAction";
 import {useDispatch} from "react-redux";
 import {Task} from "./task/Task";
-import {TaskType} from '../../../store/tasks/todolistReducer';
+import {TaskType} from '../../../store/tasks/tasksReducer';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 

@@ -8,7 +8,7 @@ import {
 
 } from '@material-ui/core';
 
-import {TaskType} from "../../../../store/tasks/todolistReducer";
+import {TaskType} from "../../../../store/tasks/tasksReducer";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
 import {Icon} from '@material-ui/core';

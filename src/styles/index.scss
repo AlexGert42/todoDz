@@ -1,7 +1,17 @@
 @import "defStyle";
 
+//82afad
+//e1a787
+//bd5c5c
+//294b59
 
-$bgBase: #82afad;
+$paletteColor_1: #82afad;
+$paletteColor_2: #e1a787;
+$paletteColor_3: #bd5c5c;
+$paletteColor_4: #294b59;
+
+
+$bgBase: $paletteColor_1;
 $colorBaseText: #444343;
 $colorTitleText: #484848;
 $colorHeaderText: #fff;
@@ -16,4 +26,16 @@ body {
   min-height: calc(100vh - 70px);
   width: 100%;
   padding: 100px 0 40px 0;
+}
+
+
+.install_app {
+  width: 100vh;
+  height: 100vh;
+  .install_app__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

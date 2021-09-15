@@ -1,30 +1,30 @@
-import {v1} from "uuid";
+
 import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "../form/AddItemForm";
 import {TodoList} from "../tasks/TodoList";
-import {Container, Grid} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 
 
-import {FilterValuesType, TodoListType} from "../../../store/todolist/createTodolistReducer";
+import {FilterValuesType, TodoListType, chengeFilterTodolistAction} from "../../../store/todolist/todolistReducer";
 
 import {
     addTodolistThunk,
-    chengeFilterTodolistAction, chengeNameTodolistThunk,
+    chengeNameTodolistThunk,
     getTodolistThunk,
     removeTodolistThunk
-} from "../../../store/todolist/createTodolistAction";
+} from "../../../store/todolist/todolistAction";
 
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../../store/store";
-import {StateTaskType} from "../../../store/tasks/todolistReducer";
+import {StateTaskType} from "../../../store/tasks/tasksReducer";
+import {Redirect} from "react-router-dom";
 
 
 export const CreateTodoList = React.memo(() => {
-
+    const auth = useSelector<AppRootState, boolean>(state => state.app.authMe)
     const todoListArray = useSelector<AppRootState, Array<TodoListType>>(state => state.todolist)
     const allTasks = useSelector<AppRootState, StateTaskType>(state => state.tasks)
-    const progress = useSelector<AppRootState, boolean>(state => state.app.initApp)
 
 
     const dispatch = useDispatch()
@@ -47,41 +47,41 @@ export const CreateTodoList = React.memo(() => {
     }, [])
 
     const chengeFilter = useCallback((todoListId: string, value: FilterValuesType) => {
-        const action = chengeFilterTodolistAction(todoListId, value)
-        dispatch(action)
+        dispatch(chengeFilterTodolistAction({idTodolist: todoListId, newfilterTodolist: value}))
     }, [])
 
+
+    if (!auth) {
+        return <Redirect to={'/'}/>
+    }
+
     return (
-        <Container maxWidth="xl">
-            {
-                progress &&
-                <>
-                    <Grid container spacing={10}>
-                        <AddItemForm addTask={addTodoList}/>
-                    </Grid>
+        <div >
 
-                    <Grid container spacing={10}>
-                        {todoListArray.map((el: any) => {
-                            let filterForTasks = allTasks[el.id]
-                            
-                            return <TodoList
-                                key={el.id}
-                                id={el.id}
-                                title={el.title}
-                                tasks={filterForTasks}
-                                chengeFilter={chengeFilter}
-                                filter={el.filter}
-                                removeTodoList={removeTodoList}
-                                chengeTitle={chengeTitle}
-                                entiryStatus={el.entiryStatus}
-                            />
-                        })}
-                    </Grid>
-                </>
-            }
+            <Grid container spacing={10}>
+                <AddItemForm addTask={addTodoList}/>
+            </Grid>
 
+            <Grid container spacing={10}>
 
-        </Container>
+                {todoListArray.map((el: any) => {
+                    let filterForTasks = allTasks[el.id]
+
+                    return <TodoList
+                        key={el.id}
+                        id={el.id}
+                        title={el.title}
+                        tasks={filterForTasks}
+                        chengeFilter={chengeFilter}
+                        filter={el.filter}
+                        removeTodoList={removeTodoList}
+                        chengeTitle={chengeTitle}
+                        entiryStatus={el.entiryStatus}
+                    />
+                })}
+
+            </Grid>
+        </div>
     );
 })
 

@@ -1,4 +1,6 @@
 import axios from 'axios'
+import {log} from "util";
+import {DataLogin} from "../components/content/login/Login";
 
 export type ServTodoListType = {
     id: string
@@ -95,6 +97,23 @@ export const TaskApi: ApiTaskMethodType = {
     },
     reorderTask(idList: string, idTask: string, order: number) {
         return instance.put(`/todo-lists/${idList}/tasks/${idTask}`, {orer: order}).then(res => res.data)
+    }
+}
+
+
+
+
+
+
+export const LoginApi = {
+    authMe() {
+        return instance.get('/auth/me').then(res => res.data)
+    },
+    login(data: DataLogin) {
+        return instance.post('/auth/login', {...data}).then(res => res.data)
+    },
+    logout() {
+        return instance.delete('/auth/login').then(res => res.data)
     }
 }
 

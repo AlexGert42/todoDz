@@ -1,49 +1,72 @@
-import {
-    AlertContentType,
-    initAppActionType,
-    RemoveAlertActionType,
-    SetAlertActionType
-} from "./appAction";
-import { v1 } from "uuid";
+
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { AlertContentType } from "./appAction";
 
 
-type AppActionType = initAppActionType | SetAlertActionType | RemoveAlertActionType;
+
+
+
 
 export type initialStateType = {
-    initApp: boolean,
+    initApp: boolean
+    progressLoading: boolean,
     alertContent: AlertContentType[]
+    dataUser: DataUser | null
+    authMe: boolean
 }
 
-const initialState = {
+const initialState: initialStateType = {
     initApp: false,
-    alertContent: []
+    progressLoading: false,
+    alertContent: [],
+    dataUser: null,
+    authMe: false
+}
 
-
+export type DataUser = {
+    email: string
+    id: number
+    login: string
 }
 
 
-
-export const AppReducer = (state: initialStateType = initialState, action: AppActionType): initialStateType => {
-    switch (action.type) {
-        case 'INITIALIZATION':
-            return {
-                ...state,
-                initApp: true
-            }
-        case 'SET_ALERT':
-            const list = [...state.alertContent, {...action.payload}]
-            return {
-                ...state,
-                alertContent: list
-            }
-        case 'REMOVE_ALERT':
-            let newArr = state.alertContent.filter(el => el.id !== action.payload)
-            return {
-                ...state,
-                alertContent: newArr
-            }
-
-        default:
-            return state
+const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers: {
+        initialAction(state, action: PayloadAction<{ value: boolean }>) {
+            state.initApp = action.payload.value
+        },
+        loginAction(state, action: PayloadAction<{ value: boolean }>) {
+            state.authMe = action.payload.value
+        },
+        setDataAction(state, action: PayloadAction<{ value: boolean, dataUser: DataUser }>) {
+            state.authMe = action.payload.value
+            state.dataUser = action.payload.dataUser
+        },
+        initAppAction(state, action: PayloadAction<{ value: boolean }>) {
+            state.progressLoading = action.payload.value
+        },
+        setAlertAction(state, action: PayloadAction<{ alert: AlertContentType }>) {
+            state.alertContent.push(action.payload.alert)
+        },
+        removeAlertAction(state, action: PayloadAction<{ id: string }>) {
+            state.alertContent = state.alertContent.filter(el => el.id !== action.payload.id)
+        },
     }
-}
+})
+
+
+export const AppReducer = slice.reducer
+
+
+
+
+export const {initialAction} = slice.actions
+export const {loginAction} = slice.actions
+export const {setDataAction} = slice.actions
+export const {initAppAction} = slice.actions
+export const {setAlertAction} = slice.actions
+export const {removeAlertAction} = slice.actions
+
+
