@@ -29,8 +29,11 @@ export const CreateTodoList = React.memo(() => {
 
     const dispatch = useDispatch()
 
+    let demo = false
     useEffect(() => {
-        dispatch(getTodolistThunk())
+        if (!demo) {
+            dispatch(getTodolistThunk())
+        }
     }, [])
 
 

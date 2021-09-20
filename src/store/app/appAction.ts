@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {LoginApi} from "../../api/todoApi";
 import {DataLogin} from "../../components/content/login/Login";
 import {initialAction, setDataAction, initAppAction, loginAction } from "./appReducer";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 
 
@@ -32,6 +33,7 @@ export const authMeThunk = () => (dispatch: Dispatch) => {
             }
         })
 }
+
 
 
 export const loginThunk = (data: DataLogin) => (dispatch: Dispatch) => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import {CreateTodoList} from "../components/content/todolist/CreateTodoList";
 import {ReduxStoreProviderDecorator} from "../../.storybook/reduxStoreProviderDecorator";
+import {CreateTodoList} from "../components/content/todolist/CreateTodoList";
 
 
 export default {
