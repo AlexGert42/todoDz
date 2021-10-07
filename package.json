@@ -1,5 +1,5 @@
 {
-  "name": "it-incubator-todolist-ts",
+  "name": "todoDz",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -36,7 +36,7 @@
     "typescript": "~3.7.2",
     "uuid": "^8.3.2"
   },
-  "homepage": "https://AlexGert42.github.io/todo",
+  "homepage": "https://AlexGert42.github.io/todoDz",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

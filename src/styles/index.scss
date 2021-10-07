@@ -16,16 +16,17 @@ $colorHeaderText: #fff;
 body {
   background-color: #efefef;
   color: $colorBaseText;
+
+
 }
 
 .container {
+  animation: 1s showBackground ease-in-out;
   overflow: hidden;
-  background-color: #fff;
   min-height: 100vh;
   width: 100%;
-  //margin: 0 auto;
-  //max-width: 1200px;
   padding: 100px 20px 40px 20px;
+  background-image: url("fone.jpg");
 }
 
 
@@ -47,11 +48,8 @@ body {
   cursor: pointer;
   -webkit-appearance: none;
   width: 5px;
-  height: 8px;
-  background-color: rgba(130, 175, 173, 0.5);
-  &:hover {
-    background-color: $paletteColor_1;
-  }
+  height: 10px;
+  background-color: rgba(130, 175, 173, 0.0);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -60,5 +58,18 @@ body {
   background-color: rgba(41, 75, 89, 0.5);
   &:hover {
     background-color: $paletteColor_4;
+  }
+}
+
+//animation
+
+@keyframes showBackground {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
   }
 }
