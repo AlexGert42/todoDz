@@ -4,14 +4,12 @@ import { CreateTodoList } from './todolist/CreateTodoList';
 import {Login} from "./login/Login";
 
 
-const mainStyle = {
 
-}
 
 export const Content: React.FC = () => {
 
     return (
-        <main style={mainStyle}>
+        <main>
             <Switch>
                 <Route path={'/todolist'} component={CreateTodoList}/>
                 <Route path={'/'} component={Login}/>

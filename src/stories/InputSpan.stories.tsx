@@ -1,5 +1,5 @@
 import React from 'react';
-import {InputSpan} from "../components/content/input/InputSpan";
+import {InputSpan} from "../components/common/input/InputSpan";
 // @ts-ignore
 import {action} from '@storybook/addon-actions';
 import {ReduxStoreProviderDecorator} from "../../.storybook/reduxStoreProviderDecorator";

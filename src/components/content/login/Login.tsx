@@ -1,22 +1,22 @@
 import React from 'react';
 import styles from './Login.module.scss';
 import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    FormLabel,
     Grid,
     Paper,
-    FormControl,
-    FormLabel,
-    FormGroup,
-    TextField,
-    FormControlLabel,
     Switch,
-    Button
+    TextField
 } from '@material-ui/core';
 import {useFormik} from 'formik'
-import {loginThunk} from "../../../store/app/appAction";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../../store/store";
+import {useSelector} from "react-redux";
+import {useActions} from "../../../store/store";
 import {Redirect} from "react-router-dom";
-
+import {selectors} from '../../selectors'
+import {appActions} from "../../../store";
 
 export type DataLogin = {
     email: string
@@ -26,11 +26,9 @@ export type DataLogin = {
 }
 
 
-
 export const Login: React.FC = () => {
-    const auth = useSelector<AppRootState, boolean>(state => state.app.authMe)
-    const dispatch = useDispatch()
-
+    const auth = useSelector(selectors.authSelector)
+    const {loginThunk} = useActions(appActions)
 
     const formik = useFormik({
         initialValues: {
@@ -49,8 +47,8 @@ export const Login: React.FC = () => {
                 return {password: 'Password is less than 8 characters'}
             }
         },
-        onSubmit: (values) => {
-            dispatch(loginThunk(values))
+        onSubmit: async (values) => {
+            await loginThunk(values)
         },
     });
 
@@ -78,7 +76,7 @@ export const Login: React.FC = () => {
                                 label={'Password'}
                                 margin={"normal"}
                                 name={'password'}
-                                type={'password'}
+                                // type={'password'}
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                             />

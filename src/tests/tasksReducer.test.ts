@@ -1,54 +1,64 @@
 
-import {StateTaskType, TasksReducer, TaskType, addTaskTodolistAction, removeTaskTodolistAction, updateTaskTodolistAction} from "../store/tasks/tasksReducer";
+import {
+    addTaskThunk,
+    removeTaskThunk,
+    StateTaskType,
+    TasksReducer,
+    TaskType,
+    updateTaskThunk
+} from "../store/tasks/tasksReducer";
 
 
 
-let startState: StateTaskType = {
-    ['todolist1']: [
-        {
-            id: 'id:1',
-            title: 'test1',
-            status: 2,
-            order: 0,
-            addedDate: '',
-            deadline: '',
-            description: '',
-            priority: 0,
-            startDate: '',
-            todoListId: 'todolist1',
-            statusProcess: ''
-        },
-        {
-            id: 'di:2',
-            title: 'test2',
-            status: 2,
-            order: 0,
-            addedDate: '',
-            deadline: '',
-            description: '',
-            priority: 0,
-            startDate: '',
-            todoListId: 'todolist2',
-            statusProcess: ''
-        }
-    ],
-    ['todolist2']: [
-        {
-            id: 'di:22',
-            title: 'test22',
-            status: 2,
-            order: 0,
-            addedDate: '',
-            deadline: '',
-            description: '',
-            priority: 0,
-            startDate: '',
-            todoListId: 'todolist2',
-            statusProcess: ''
-        }
-    ]
-}
+let startState: StateTaskType = {}
 
+beforeEach(() => {
+    startState = {
+        ['todolist1']: [
+            {
+                id: 'id:1',
+                title: 'test1',
+                status: 2,
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                description: '',
+                priority: 0,
+                startDate: '',
+                todoListId: 'todolist1',
+                statusProcess: ''
+            },
+            {
+                id: 'di:2',
+                title: 'test2',
+                status: 2,
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                description: '',
+                priority: 0,
+                startDate: '',
+                todoListId: 'todolist2',
+                statusProcess: ''
+            }
+        ],
+        ['todolist2']: [
+            {
+                id: 'di:22',
+                title: 'test22',
+                status: 2,
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                description: '',
+                priority: 0,
+                startDate: '',
+                todoListId: 'todolist2',
+                statusProcess: ''
+            }
+        ]
+    }
+})
 
 
 test('correct add task', () => {
@@ -57,17 +67,17 @@ test('correct add task', () => {
         title: 'HTML&CSS_test',
         status: 2,
         order: 0,
-        addedDate: '',
-        deadline: '',
-        description: '',
+        addedDate: '54',
+        deadline: '54',
+        description: '45',
         priority: 0,
-        startDate: '',
-        todoListId: '6546546',
-        statusProcess: ''
+        startDate: '454',
+        todoListId: 'todolist1',
+        statusProcess: '545'
     }
 
-    const action = addTaskTodolistAction({id: 'todolist1', newTodolist: task})
-
+    const action = addTaskThunk.fulfilled({id: task.todoListId, newTask: task.title},'requestId', {id: task.todoListId, newTask: task.title})
+debugger
     const endState = TasksReducer(startState, action)
 
     console.log(endState)
@@ -77,7 +87,7 @@ test('correct add task', () => {
 
 test('correct remove task', () => {
 
-    const action = removeTaskTodolistAction({id: 'todolist1', taskId: 'id:1'})
+    const action = removeTaskThunk.fulfilled({id: 'todolist1', taskId: 'id:1'}, 'requestId', {id: 'todolist1', taskId: 'id:1'})
 
     const endState = TasksReducer(startState, action)
 
@@ -94,7 +104,7 @@ test('correct chenge title todolist', () => {
         title: 'chengeTest',
     }
 
-    const action = updateTaskTodolistAction({id: 'todolist1', taskId: 'id:1', task: chengeTask })
+    const action = updateTaskThunk.fulfilled({id: 'todolist1', taskId: 'id:1', task: chengeTask }, 'requestId', {id: 'todolist1', taskId: 'id:1', task: chengeTask })
 
     const endState = TasksReducer(startState, action)
 

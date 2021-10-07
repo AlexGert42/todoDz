@@ -1,9 +1,6 @@
 @import "defStyle";
 
-//82afad
-//e1a787
-//bd5c5c
-//294b59
+
 
 $paletteColor_1: #82afad;
 $paletteColor_2: #e1a787;
@@ -17,15 +14,18 @@ $colorTitleText: #484848;
 $colorHeaderText: #fff;
 
 body {
-  background-color: #fff;
+  background-color: #efefef;
   color: $colorBaseText;
 }
 
 .container {
   overflow: hidden;
-  min-height: calc(100vh - 70px);
+  background-color: #fff;
+  min-height: 100vh;
   width: 100%;
-  padding: 100px 0 40px 0;
+  //margin: 0 auto;
+  //max-width: 1200px;
+  padding: 100px 20px 40px 20px;
 }
 
 
@@ -37,5 +37,28 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+}
+
+
+//scroll
+
+::-webkit-scrollbar {
+  cursor: pointer;
+  -webkit-appearance: none;
+  width: 5px;
+  height: 8px;
+  background-color: rgba(130, 175, 173, 0.5);
+  &:hover {
+    background-color: $paletteColor_1;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+
+  border-radius: 4px;
+  background-color: rgba(41, 75, 89, 0.5);
+  &:hover {
+    background-color: $paletteColor_4;
   }
 }

@@ -39,22 +39,6 @@ export enum TaskStatuses {
 }
 
 
-type ApiTodolistMethodType = {
-    getTodolist: () => Promise<object>
-    setTodolist: (newTitle: string) => Promise<object>
-    deleteTodolist: (id: string) => Promise<object>
-    updateTodolist: (id: string, newTitle: string) => Promise<object>
-    reorderTodolist: (id: string, order: number) => Promise<object>
-}
-type ApiTaskMethodType = {
-    getTask: (id: string) => Promise<object>
-    setTask: (id: string, newTitle: string) => Promise<object>
-    deleteTask: (idL: string, idT: string) => Promise<object>
-    updateTask: (idL: string, idT: string, title: any) => Promise<object>
-    reorderTask: (idL: string, idT: string, order: number) => Promise<object>
-}
-
-
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1',
     withCredentials: true,
@@ -64,7 +48,7 @@ const instance = axios.create({
 })
 
 
-export const TodolistApi: ApiTodolistMethodType = {
+export const TodolistApi = {
     getTodolist() {
         return instance.get(`/todo-lists`).then(res => res)
     },
@@ -83,7 +67,7 @@ export const TodolistApi: ApiTodolistMethodType = {
 
 }
 
-export const TaskApi: ApiTaskMethodType = {
+export const TaskApi = {
     getTask(idList: string) {
         return instance.get(`/todo-lists/${idList}/tasks`).then(res => res)
     },

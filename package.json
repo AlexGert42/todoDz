@@ -23,6 +23,7 @@
     "babel-loader": "8.1.0",
     "bable-loader": "^0.0.1-security",
     "formik": "^2.2.9",
+    "gh-pages": "^3.2.3",
     "jest-snapshot": "^27.0.6",
     "node-sass": "4.14.1",
     "react": "^16.13.1",
@@ -35,6 +36,7 @@
     "typescript": "~3.7.2",
     "uuid": "^8.3.2"
   },
+  "homepage": "https://AlexGert42.github.io/todo",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -43,7 +45,9 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "jest:integration": "jest -c integration/jest.config.js",
-    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app",

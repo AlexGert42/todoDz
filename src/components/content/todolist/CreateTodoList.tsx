@@ -1,56 +1,46 @@
-
 import React, {useCallback, useEffect} from "react";
-import {AddItemForm} from "../form/AddItemForm";
+import style from './CreateTodoList.module.scss'
+import {ItemForm} from "../../common";
 import {TodoList} from "../tasks/TodoList";
 import {Grid} from "@material-ui/core";
+import {FilterValuesType} from "../../../store/todolist/todolistReducer";
 
+import {useSelector} from "react-redux";
 
-import {FilterValuesType, TodoListType, chengeFilterTodolistAction} from "../../../store/todolist/todolistReducer";
-
-import {
-    addTodolistThunk,
-    chengeNameTodolistThunk,
-    getTodolistThunk,
-    removeTodolistThunk
-} from "../../../store/todolist/todolistAction";
-
-
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../../store/store";
-import {StateTaskType} from "../../../store/tasks/tasksReducer";
+import {selectors} from '../../selectors'
 import {Redirect} from "react-router-dom";
+import {useActions} from "../../../store/store";
+import {todolistActions} from '../../../store'
 
 
 export const CreateTodoList = React.memo(() => {
-    const auth = useSelector<AppRootState, boolean>(state => state.app.authMe)
-    const todoListArray = useSelector<AppRootState, Array<TodoListType>>(state => state.todolist)
-    const allTasks = useSelector<AppRootState, StateTaskType>(state => state.tasks)
-
-
-    const dispatch = useDispatch()
-
     let demo = false
+
+    const auth = useSelector(selectors.authSelector)
+    const todolistArray = useSelector(selectors.todolistArraySelector)
+    const allTasks = useSelector(selectors.allTaskSelector)
+
+    const {chengeNameTodolistThunk, removeTodolistThunk, getTodolistThunk, chengeFilterTodolistAction} = useActions(todolistActions)
+
+
     useEffect(() => {
         if (!demo) {
-            dispatch(getTodolistThunk())
+            getTodolistThunk()
         }
     }, [])
 
 
-    const addTodoList = useCallback((value: string) => {
-        dispatch(addTodolistThunk(value))
-    }, [])
-
     const chengeTitle = useCallback((id: string, text: string) => {
-        dispatch(chengeNameTodolistThunk(id, text))
-    }, [todoListArray])
+        chengeNameTodolistThunk({id, text})
+    }, [todolistArray])
 
     const removeTodoList = useCallback((id: string) => {
-        dispatch(removeTodolistThunk(id))
+        removeTodolistThunk(id)
     }, [])
 
+
     const chengeFilter = useCallback((todoListId: string, value: FilterValuesType) => {
-        dispatch(chengeFilterTodolistAction({idTodolist: todoListId, newfilterTodolist: value}))
+        chengeFilterTodolistAction({idTodolist: todoListId, newfilterTodolist: value})
     }, [])
 
 
@@ -59,15 +49,11 @@ export const CreateTodoList = React.memo(() => {
     }
 
     return (
-        <div >
+        <div className={style.todolist}>
 
-            <Grid container spacing={10}>
-                <AddItemForm addTask={addTodoList}/>
-            </Grid>
+            <Grid className={style.todolist__items} container spacing={10}>
 
-            <Grid container spacing={10}>
-
-                {todoListArray.map((el: any) => {
+                {todolistArray.map((el: any) => {
                     let filterForTasks = allTasks[el.id]
 
                     return <TodoList

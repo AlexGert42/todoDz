@@ -1,27 +1,28 @@
 import React, {useEffect} from 'react';
 import {Header} from "./components/header/Header";
-import {Footer} from './components/footer/Footer';
-import {AlertComponent} from "./components/alertComponent/alertComponent";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./store/store";
+
+import {useSelector} from "react-redux";
 import {Content} from "./components/content/Content";
 import loading from './styles/grid-1.1s-200px.svg'
-import {removeAlertAction} from './store/app/appReducer';
-import {AlertContentType, authMeThunk} from './store/app/appAction';
+
+import {selectors} from './components/selectors';
+import {useActions} from "./store/store";
+import {appActions} from "./store";
+import {Alert} from './components/common'
+
 
 export const App = () => {
-    const initial = useSelector<AppRootState, boolean>(state => state.app.initApp)
-    const alertList = useSelector<AppRootState, AlertContentType[]>(state => state.app.alertContent)
+    const initial = useSelector(selectors.initialSelect)
+    const alertList = useSelector(selectors.alertSelect)
 
-    const dispatch = useDispatch()
-
+   const {authMeThunk, removeAlertAction} = useActions(appActions)
     useEffect(() => {
-        dispatch(authMeThunk())
+        authMeThunk()
     }, [])
 
 
     const onCloseAlert = (id: string) => {
-        dispatch(removeAlertAction({id}))
+        removeAlertAction({id})
     }
 
     if (!initial) {
@@ -31,14 +32,14 @@ export const App = () => {
     }
 
     return (
-        <>
+        <div style={{height: '100vh'}}>
             <Header/>
             <div className="container">
                 <Content/>
             </div>
-            <Footer/>
-            <AlertComponent alertList={alertList} onCloseAlert={onCloseAlert}/>
-        </>
+            {/*<Footer/>*/}
+            <Alert.AlertComponent alertList={alertList} onCloseAlert={onCloseAlert}/>
+        </div>
 
     )
 }

@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {Alert, AlertTitle} from '@material-ui/lab';
 import styles from './alertComponent.module.scss'
-import {AlertContentType} from "../../store/app/appAction";
+import { AlertContentType } from '../../../store/app/appReducer';
+
 
 
 type AlertComponentType = {

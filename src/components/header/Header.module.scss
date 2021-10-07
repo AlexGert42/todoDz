@@ -4,7 +4,6 @@
   background-color: $bgBase !important;
   color: $colorHeaderText !important;
   .header__inner {
-    //padding: 5px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -16,9 +15,6 @@
         margin-right: 20px;
       }
     }
-    .header__btn {
-
-    }
   }
 
 }
@@ -26,4 +22,5 @@
 .progressbar {
   position: absolute;
   bottom: -5px;
+  color: $paletteColor_4 !important;
 }

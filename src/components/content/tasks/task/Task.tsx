@@ -1,17 +1,10 @@
 import React, {useCallback} from 'react';
-import {InputSpan} from "../../input/InputSpan";
-import {
-    Checkbox,
-    ListItem,
-    Button,
-    CircularProgress,
-
-} from '@material-ui/core';
+import {Input} from "../../../common";
+import {Button, Checkbox, CircularProgress, ListItem,} from '@material-ui/core';
 
 import {TaskType} from "../../../../store/tasks/tasksReducer";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
-import {Icon} from '@material-ui/core';
 
 
 export type TaskPropsType = {
@@ -24,7 +17,6 @@ export type TaskPropsType = {
 
 
 export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeStatus}: TaskPropsType) => {
-
 
     const onChengeTaskTitleHendler = useCallback((text: string) => {
         chengeTaskTitle(id, item.id, text)
@@ -50,9 +42,7 @@ export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeSt
                             color="secondary"
                         />
             }
-
-
-            <InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
+            <Input.InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
             <Button
                 variant="outlined"
                 disabled={item.statusProcess === 'loading'}

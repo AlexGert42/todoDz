@@ -1,0 +1,12 @@
+
+.todolist {
+  width: 100%;
+
+  .todolist__items {
+
+    overflow-x: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 50px;
+  }
+}

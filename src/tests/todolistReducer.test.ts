@@ -1,24 +1,32 @@
-import {addTodolistAction, TodoListType, TodolistReducer, removeTodolistAction, chengeTitleTodolistAction, chengeFilterTodolistAction} from "../store/todolist/todolistReducer"
+import {
+    TodoListType,
+    TodolistReducer,
+    chengeFilterTodolistAction,
+    addTodolistThunk, removeTodolistThunk, chengeNameTodolistThunk
+} from "../store/todolist/todolistReducer"
 
+let startState: Array<TodoListType>[] = []
+    beforeEach(() => {
+    startState = [
+        {
+            id: 'id:1',
+            title: 'test1',
+            addedDate:'11:39:30',
+            order: 1,
+            filter: 'complete',
+            entiryStatus: ''
+        },
+        {
+            id: 'id:2',
+            title: 'test2',
+            addedDate:'11:49:38',
+            order: 1,
+            filter: 'all',
+            entiryStatus: ''
+        },
+    ]
+})
 
-let startState: Array<TodoListType>[] = [
-    {
-        id: 'id:1',
-        title: 'test1',
-        addedDate:'11:39:30',
-        order: 1,
-        filter: 'complete',
-        entiryStatus: ''
-    },
-    {
-        id: 'id:2',
-        title: 'test2',
-        addedDate:'11:49:38',
-        order: 1,
-        filter: 'all',
-        entiryStatus: ''
-    },
-]
 
 
 test('correct create todolist', () => {
@@ -31,7 +39,7 @@ test('correct create todolist', () => {
         entiryStatus: ''
     }
 
-    const action = addTodolistAction({newTodolist: todolist})
+    const action = addTodolistThunk.fulfilled({newTodolist: todolist}, 'requestId', {newTodolist: todolist})
 
     const endState = TodolistReducer(startState, action)
 
@@ -42,7 +50,7 @@ test('correct create todolist', () => {
 
 test('correct remove todolist', () => {
 
-    const action = removeTodolistAction({idTodolist: 'id:1'})
+    const action = removeTodolistThunk.fulfilled({idTodolist: 'id:1'}, 'requestId', {idTodolist: 'id:1'})
 
     const endState = TodolistReducer(startState, action)
 
@@ -52,8 +60,7 @@ test('correct remove todolist', () => {
 
 
 test('correct chenge title todolist', () => {
-
-    const action = chengeTitleTodolistAction({idTodolist: 'id:1', newTitleTodolist: 'chengeTest'})
+    const action = chengeNameTodolistThunk.fulfilled({idTodolist: 'id:1', newTitleTodolist: 'chengeTest'}, 'requestId', {newTitleTodolist: 'chengeTest'})
 
     const endState = TodolistReducer(startState, action)
 
@@ -61,7 +68,7 @@ test('correct chenge title todolist', () => {
 })
 
 
-test('correct chenge title todolist', () => {
+test('correct chenge filter todolist', () => {
 
     const action = chengeFilterTodolistAction({idTodolist: 'id:1', newfilterTodolist: 'active'})
 

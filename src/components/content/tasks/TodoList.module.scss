@@ -1,0 +1,9 @@
+
+
+.todolist {
+  min-width: 500px;
+  min-height: 65vh;
+  @media (max-width: 540px) {
+    min-width: 100%;
+  }
+}
