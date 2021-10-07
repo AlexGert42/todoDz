@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/todo/static/css/main.b19aef77.chunk.css",
-    "main.js": "/todo/static/js/main.b5ef0584.chunk.js",
-    "main.js.map": "/todo/static/js/main.b5ef0584.chunk.js.map",
-    "runtime-main.js": "/todo/static/js/runtime-main.c58ac565.js",
-    "runtime-main.js.map": "/todo/static/js/runtime-main.c58ac565.js.map",
-    "static/js/2.dde12257.chunk.js": "/todo/static/js/2.dde12257.chunk.js",
-    "static/js/2.dde12257.chunk.js.map": "/todo/static/js/2.dde12257.chunk.js.map",
-    "index.html": "/todo/index.html",
-    "precache-manifest.c7f49e76ea9e54fd8ef0451e67123f11.js": "/todo/precache-manifest.c7f49e76ea9e54fd8ef0451e67123f11.js",
-    "service-worker.js": "/todo/service-worker.js",
-    "static/css/main.b19aef77.chunk.css.map": "/todo/static/css/main.b19aef77.chunk.css.map",
-    "static/js/2.dde12257.chunk.js.LICENSE.txt": "/todo/static/js/2.dde12257.chunk.js.LICENSE.txt",
-    "static/media/grid-1.1s-200px.svg": "/todo/static/media/grid-1.1s-200px.82b1d7ed.svg"
+    "main.css": "/it-incubator-todolist-ts/static/css/main.b19aef77.chunk.css",
+    "main.js": "/it-incubator-todolist-ts/static/js/main.b5ef0584.chunk.js",
+    "main.js.map": "/it-incubator-todolist-ts/static/js/main.b5ef0584.chunk.js.map",
+    "runtime-main.js": "/it-incubator-todolist-ts/static/js/runtime-main.f8216a61.js",
+    "runtime-main.js.map": "/it-incubator-todolist-ts/static/js/runtime-main.f8216a61.js.map",
+    "static/js/2.dde12257.chunk.js": "/it-incubator-todolist-ts/static/js/2.dde12257.chunk.js",
+    "static/js/2.dde12257.chunk.js.map": "/it-incubator-todolist-ts/static/js/2.dde12257.chunk.js.map",
+    "index.html": "/it-incubator-todolist-ts/index.html",
+    "precache-manifest.1e06b6216cb92896e9b59bd30c7f3ff7.js": "/it-incubator-todolist-ts/precache-manifest.1e06b6216cb92896e9b59bd30c7f3ff7.js",
+    "service-worker.js": "/it-incubator-todolist-ts/service-worker.js",
+    "static/css/main.b19aef77.chunk.css.map": "/it-incubator-todolist-ts/static/css/main.b19aef77.chunk.css.map",
+    "static/js/2.dde12257.chunk.js.LICENSE.txt": "/it-incubator-todolist-ts/static/js/2.dde12257.chunk.js.LICENSE.txt",
+    "static/media/grid-1.1s-200px.svg": "/it-incubator-todolist-ts/static/media/grid-1.1s-200px.82b1d7ed.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.c58ac565.js",
+    "static/js/runtime-main.f8216a61.js",
     "static/js/2.dde12257.chunk.js",
     "static/css/main.b19aef77.chunk.css",
     "static/js/main.b5ef0584.chunk.js"
