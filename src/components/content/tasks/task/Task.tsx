@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import style from './Task.module.scss'
 import {Input} from "../../../common";
 import {Button, Checkbox, CircularProgress, ListItem,} from '@material-ui/core';
 
@@ -23,7 +24,7 @@ export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeSt
     }, [id, item.id])
 
     return (
-        <ListItem style={{display: 'flex', justifyContent: 'space-between'}}>
+        <ListItem className={style.task}>
             {
                 item.statusProcess === 'chengeStatus' ?
                     <CircularProgress size={28}/>
@@ -47,6 +48,7 @@ export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeSt
                 variant="outlined"
                 disabled={item.statusProcess === 'loading'}
                 onClick={() => removeTask(id, item.id)}
+                color={'secondary'}
             >
                 <DeleteIcon/>
             </Button>

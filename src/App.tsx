@@ -9,6 +9,25 @@ import {selectors} from './components/selectors';
 import {useActions} from "./store/store";
 import {appActions} from "./store";
 import {Alert} from './components/common'
+import {createTheme, ThemeProvider} from '@material-ui/core';
+
+
+
+
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#294B59FF'
+        },
+        secondary: {
+            main: '#BD5C5CFF'
+        },
+    }
+})
+
+
+
 
 
 export const App = () => {
@@ -32,14 +51,13 @@ export const App = () => {
     }
 
     return (
-        <div style={{height: '100vh'}}>
+        <ThemeProvider theme={theme}>
             <Header/>
             <div className="container">
                 <Content/>
             </div>
-            {/*<Footer/>*/}
             <Alert.AlertComponent alertList={alertList} onCloseAlert={onCloseAlert}/>
-        </div>
+        </ThemeProvider>
 
     )
 }

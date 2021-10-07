@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {TextField, Button, Typography, Grid, Paper} from "@material-ui/core";
+import {Button, Grid, TextField, Typography} from "@material-ui/core";
+import style from './AddItemForm.module.scss'
 
 
 export type ErrorType = {
@@ -33,22 +34,28 @@ export const AddItemForm = React.memo(({addTask, status}: TodoListPropTypes) => 
     }
 
     return (
-        <Grid item xs={12}>
-            <Paper elevation={3} style={{padding: '20px'}}>
-
-                <TextField className={errorInput.style}
-                           fullWidth
-                           disabled={status === 'loading'}
-                           margin="normal"
-                           value={valueInput}
-                           onChange={chengeInput}
-                           onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-                               if (e.charCode === 13) sendNewTask()
-                               if (e.charCode !== 32) setErrorInput({style: '', textSpan: ''})
-                           }}/>
-                <Button variant="contained" color="primary" onClick={sendNewTask} disabled={status === 'loading'}>Create Task</Button>
-                <Typography>{errorInput.textSpan}</Typography>
-            </Paper>
+        <Grid className={style.form} item xs={12}>
+            <TextField
+                className={style.form__input}
+                fullWidth
+                color={'primary'}
+                disabled={status === 'loading'}
+                margin="normal"
+                value={valueInput}
+                onChange={chengeInput}
+                onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+                    if (e.charCode === 13) sendNewTask()
+                    if (e.charCode !== 32) setErrorInput({style: '', textSpan: ''})
+                }}/>
+            <Button
+                className={style.form__btn}
+                color={'primary'}
+                variant="contained"
+                onClick={sendNewTask}
+                disabled={status === 'loading'}>
+                +
+            </Button>
+            <Typography className={style.form__error}>{errorInput.textSpan}</Typography>
         </Grid>
     )
 })
