@@ -1,8 +1,47 @@
+@import "../../../../styles/index";
 
 
 .task {
-  margin: 15px !important;
+  margin-bottom: 15px;
   display: flex;
   justify-content: space-between !important;
   align-items: center;
+  padding: 0 !important;
+
+
+  .task__discription {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+
+    .task__loader {
+
+      margin: 0 14px 10px 0 !important;
+      padding: 0 !important;
+
+    }
+
+    .task__btn {
+      background-color: #00000000;
+      padding: 0 !important;
+      margin: 0 20px 0 0 !important;
+      height: 40px;
+      width: 24px !important;
+      color: $colorBaseText;
+    }
+
+    .task__checkbox {
+      padding: 0 !important;
+      margin: 0 20px 0 0 !important;
+      height: 40px;
+      color: $colorBaseText;
+    }
+
+    .task__input {
+      color: $colorBaseText;
+    }
+  }
+
+
 }

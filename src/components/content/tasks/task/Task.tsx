@@ -25,25 +25,31 @@ export const Task = React.memo(({id, item, removeTask, chengeTaskTitle, chengeSt
 
     return (
         <ListItem className={style.task}>
-            {
-                item.statusProcess === 'chengeStatus' ?
-                    <CircularProgress size={28}/>
-                    :
-                    item.status === 2 ?
-                        <Button
-                            disabled={item.statusProcess === 'loading'}
-                            onClick={() => chengeStatus(id, item.id, (item.status === 0) ? 2 : 0)}
-                        >
-                            <CheckIcon/>
-                        </Button>
+            <div className={style.task__discription}>
+                {
+                    item.statusProcess === 'chengeStatus' ?
+                        <CircularProgress className={style.task__loader} size={30}/>
                         :
-                        <Checkbox
-                            disabled={item.statusProcess === 'loading'}
-                            onChange={() => chengeStatus(id, item.id, (item.status === 0) ? 2 : 0)}
-                            color="secondary"
-                        />
-            }
-            <Input.InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
+                        item.status === 2 ?
+                            <button
+                                className={style.task__btn}
+                                disabled={item.statusProcess === 'loading'}
+                                onClick={() => chengeStatus(id, item.id, (item.status === 0) ? 2 : 0)}
+                            >
+                                <CheckIcon/>
+                            </button>
+                            :
+                            <Checkbox
+                                className={style.task__checkbox}
+                                disabled={item.statusProcess === 'loading'}
+                                onChange={() => chengeStatus(id, item.id, (item.status === 0) ? 2 : 0)}
+                                color="secondary"
+                            />
+                }
+                <div className={style.task__input}>
+                    <Input.InputSpan text={item.title} onChengeTitleHendler={onChengeTaskTitleHendler}/>
+                </div>
+            </div>
             <Button
                 variant="outlined"
                 disabled={item.statusProcess === 'loading'}

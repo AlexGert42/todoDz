@@ -2,7 +2,9 @@
 
 .todolist {
   min-width: 490px;
-  min-height: 65vh;
+  @media (max-width: 1024px) {
+    min-width: 500px;
+  }
   @media (max-width: 540px) {
     min-width: 100%;
   }
